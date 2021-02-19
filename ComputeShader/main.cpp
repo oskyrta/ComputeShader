@@ -69,7 +69,7 @@ namespace mandelbrot {
 		Sprite sprite;
 		sprite.load({ 512, 512 }, &ray_texture);
 		sprite.setProgram(&shader);
-	
+
 		while (!window.shouldClose()) {
 			window.pollEvents();
 

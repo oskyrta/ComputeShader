@@ -45,7 +45,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -98,9 +98,6 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>.\src;.\external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib</AdditionalDependencies>
     </Lib>
@@ -170,9 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core.cpp" />
-    <ClCompile Include="src\math\mat3.cpp" />
-    <ClCompile Include="src\math\vec2.cpp" />
-    <ClCompile Include="src\math\vec3.cpp" />
     <ClCompile Include="src\render\drawable.cpp" />
     <ClCompile Include="src\render\program.cpp" />
     <ClCompile Include="src\render\renderTarget.cpp" />

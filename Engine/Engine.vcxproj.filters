@@ -51,11 +51,11 @@
     <ClInclude Include="src\math\mat3.h">
       <Filter>Source Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\vec3.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\render\renderTexture.h">
       <Filter>Source Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\vec3.h">
+      <Filter>Source Files\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,15 +82,6 @@
     </ClCompile>
     <ClCompile Include="src\render\sprite.cpp">
       <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\vec2.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\vec3.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\mat3.cpp">
-      <Filter>Source Files\math</Filter>
     </ClCompile>
     <ClCompile Include="src\render\renderTexture.cpp">
       <Filter>Source Files\render</Filter>
