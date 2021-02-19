@@ -37,8 +37,8 @@ namespace ce {
 	protected:
 		Transform* m_parent  = nullptr;
 							 
-		float m_depth		 = 0;
-		float m_rotation	 = 0;
+		float m_depth	 = 0;
+		float m_rotation = 0;
 		vec2f m_scale	 = vec2f(1, 1);
 		vec2f m_position = vec2f(0, 0);
 		vec2f m_origin	 = vec2f(0, 0);

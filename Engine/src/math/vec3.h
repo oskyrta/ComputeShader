@@ -205,12 +205,39 @@ namespace ce {
 			return vec3(-v.x, -v.y, -v.z);
 		}
 
-		T& operator[](int i);
-		const T& operator[](int i) const;
+		T& operator[](int i) {
+			switch (i) {
+			default:
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			}
+		}
+
+		const T& operator[](int i) const {
+			switch (i) {
+			default:
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			}
+		}
 
 	};
 
 	template<typename T>
-	std::ostream& operator<<(std::ostream& os, const vec3<T>& v);
+	std::ostream& operator<<(std::ostream& os, const vec3<T>& v) {
+		os << v.x << ", " << v.y << ", " << v.z;
+	}
+
+	typedef vec3<int> vec3i;
+	typedef vec3<float> vec3f;
+	typedef vec3<double> vec3d;
 
 }

@@ -60,8 +60,17 @@ namespace ce {
 			vec3<T> ret;
 
 			ret.x = m.data[0] * v.x + m.data[3] * v.y + m.data[6] * v.z;
-			ret.x = m.data[1] * v.x + m.data[4] * v.y + m.data[7] * v.z;
-			ret.x = m.data[2] * v.x + m.data[5] * v.y + m.data[8] * v.z;
+			ret.y = m.data[1] * v.x + m.data[4] * v.y + m.data[7] * v.z;
+			ret.z = m.data[2] * v.x + m.data[5] * v.y + m.data[8] * v.z;
+
+			return ret;
+		}
+
+		friend vec2<T> operator*(const mat3& m, const vec2<T>& v) {
+			vec2<T> ret;
+
+			ret.x = m.data[0] * v.x + m.data[3] * v.y;
+			ret.y = m.data[1] * v.x + m.data[4] * v.y;
 
 			return ret;
 		}
@@ -89,8 +98,12 @@ namespace ce {
 		};
 		static mat3 rotate(mat3 m, double degrees) {
 			mat3<T> t(1);
-			double s = sin( (degrees * 3.14159265) / 180);
-			double c = cos( (degrees * 3.14159265) / 180);
+			
+			double s = sin(degrees * 0.0174532925);
+			double c = cos(degrees * 0.0174532925);
+			
+			// double s = sin( (degrees * 3.14159265) / 180);
+			// double c = cos( (degrees * 3.14159265) / 180);
 
 			t.data[0] = c; t.data[1] = s;
 			t.data[3] = -s; t.data[4] = c;
