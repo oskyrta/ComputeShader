@@ -21,12 +21,24 @@
     <ClCompile Include="polygon.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="rigidbody.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="physicsController.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="polygon.h">
       <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="aabb.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="rigidbody.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="physicsController.h">
       <Filter>Source files</Filter>
     </ClInclude>
   </ItemGroup>

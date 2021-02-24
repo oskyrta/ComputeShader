@@ -140,8 +140,8 @@ namespace ce {
 		template<typename U>
 		friend vec2 operator+(const vec2& a, U scalar) {
 			return vec2{
-				a.x + static_cast<T>(scalar);
-				a.y + static_cast<T>(scalar);
+				a.x + static_cast<T>(scalar),
+				a.y + static_cast<T>(scalar)
 			};
 		};
 
@@ -156,40 +156,40 @@ namespace ce {
 		template<typename U>
 		friend vec2 operator-(const vec2& a, U scalar) {
 			return vec2{
-				a.x - static_cast<T>(scalar);
-				a.y - static_cast<T>(scalar);
+				a.x - static_cast<T>(scalar),
+				a.y - static_cast<T>(scalar)
 			};
 		};
 
 		template<typename U>
 		friend vec2 operator*(const vec2& a, const vec2<U>& b) {
 			return vec2{
-				a.x * static_cast<T>(b.x);
-				a.y * static_cast<T>(b.y);
+				a.x * static_cast<T>(b.x),
+				a.y * static_cast<T>(b.y)
 			};
 		};
 
 		template<typename U>
 		friend vec2 operator*(const vec2& a, U scalar) {
 			return vec2{
-				a.x * static_cast<T>(scalar);
-				a.y * static_cast<T>(scalar);
+				a.x * static_cast<T>(scalar),
+				a.y * static_cast<T>(scalar)
 			};
 		};
 
 		template<typename U>
 		friend vec2 operator/(const vec2& a, const vec2<U>& b) {
 			return vec2{
-				a.x / static_cast<T>(b.x);
-				a.y / static_cast<T>(b.y);
+				a.x / static_cast<T>(b.x),
+				a.y / static_cast<T>(b.y)
 			};
 		};
 
 		template<typename U>
 		friend vec2 operator/(vec2 a, U scalar) {
 			return vec2{
-				a.x / static_cast<T>(scalar);
-				a.y / static_cast<T>(scalar);
+				a.x / static_cast<T>(scalar),
+				a.y / static_cast<T>(scalar)
 			};
 		};
 

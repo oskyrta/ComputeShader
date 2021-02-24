@@ -7,16 +7,16 @@ namespace pc {
 	AABB Polygon::getBoundingBox() const {
 		AABB aabb = AABB(
 			ce::vec2f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
-			ce::vec2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min())
+			ce::vec2f(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest())
 		);
 
 		auto translate = transform.getTranslate();
 
 		for (int i = 0; i < vertices.size(); ++i) {
-			auto point = translate * ce::vec3f(vertices[i].x, vertices[i].y, 0);
+			auto point = translate * ce::vec3f(vertices[i].x, vertices[i].y, 1);
 
-			aabb.bottom_left.x = std::fmax(aabb.bottom_left.x, point.x);
-			aabb.bottom_left.y = std::fmax(aabb.bottom_left.y, point.y);
+			aabb.bottom_left.x = std::fmin(aabb.bottom_left.x, point.x);
+			aabb.bottom_left.y = std::fmin(aabb.bottom_left.y, point.y);
 			aabb.top_right.x = std::fmax(aabb.top_right.x, point.x);
 			aabb.top_right.y = std::fmax(aabb.top_right.y, point.y);
 		}

@@ -152,11 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="physicsController.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="rigidbody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.h" />
+    <ClInclude Include="physicsController.h" />
     <ClInclude Include="polygon.h" />
+    <ClInclude Include="rigidbody.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
