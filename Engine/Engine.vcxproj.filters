@@ -19,6 +19,9 @@
     <Filter Include="Source Files\math">
       <UniqueIdentifier>{3eee1c14-89c9-41e8-94ec-2b41c19eed85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\opengl">
+      <UniqueIdentifier>{f7c1a52c-af29-436e-852d-caf89b66741a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\window.h">
@@ -56,6 +59,12 @@
     </ClInclude>
     <ClInclude Include="src\math\vec3.h">
       <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\math.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\opengl\ssbo.h">
+      <Filter>Source Files\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

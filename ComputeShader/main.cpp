@@ -76,7 +76,7 @@ namespace mandelbrot {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			if (updated) {
-				ray_shader.use();
+				ray_shader.bind();
 				ray_shader.setVector("size", size, size);
 				ray_shader.setVector("pos", pos.x / 512, pos.y / 512);
 				glDispatchCompute(32, 32, 1);
