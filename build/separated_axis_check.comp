@@ -1,0 +1,141 @@
+#version 430
+
+const float FLT_MAX = 3.402823466e+38;
+const float FLT_MIN = 1.175494351e-38;
+
+#define Buffer_SSBO 0
+#define Buffer_Vertices 1
+#define Buffer_Indices 2
+#define Buffer_VerticesOffsets 3
+#define Buffer_TransformedVertices 4
+#define Buffer_Matrices 5
+#define Buffer_AABBs 6
+#define Buffer_PossibleCollisions 7
+#define Buffer_Variables 8
+#define Buffer_Normals 9
+#define Buffer_TransformedNormals 10
+#define Buffer_Collisions 11
+
+struct VertexInfo {
+    uint v;
+    float dist;
+};
+
+struct Collision {
+    uint a;
+    uint b;
+    uint v_a;
+    uint v_b;
+    float dist;
+    float align;
+    vec2 normal;
+};
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+layout(std430, binding = Buffer_TransformedVertices) buffer TransformedVertices {
+    vec2 transformed_vertices[];
+};
+
+layout(std430, binding = Buffer_PossibleCollisions) buffer PossibleCollisions {
+    uint possible_collisions[];
+};
+
+layout(std430, binding = Buffer_VerticesOffsets) buffer VerticesOffsets {
+    uint vertices_offsets[];
+};
+
+layout(std430, binding = Buffer_TransformedNormals) buffer TransformedNormals {
+    vec2 transformed_normals[];
+};
+
+layout(std430, binding = Buffer_Collisions) buffer Collisions {
+    Collision collisions[];
+};
+
+layout(std430, binding = Buffer_Variables) buffer Variables {
+    uint variables[];
+};
+
+layout(std430, binding = Buffer_SSBO) buffer SSBO {
+    vec2 ssbo[];
+};
+
+int j = 0;
+
+void farthestVertex(uint normal_i, uint b, inout float dist, inout uint v) {
+    for (uint i = vertices_offsets[b]; i < vertices_offsets[b + 1]; ++i) {
+        float dot_b = dot(transformed_vertices[i], transformed_normals[normal_i]);
+        v    = dot_b < dist ? i     : v;
+        dist = dot_b < dist ? dot_b : dist;
+    }
+}
+
+void main() {
+    uint a = possible_collisions[gl_WorkGroupID.x * 2];
+    uint b = possible_collisions[gl_WorkGroupID.x * 2 + 1];
+
+    bool colliding = true;
+    Collision collision;
+    collision.a = a;
+    collision.b = b;
+    collision.dist = FLT_MAX;
+
+    for(uint i = vertices_offsets[a]; i < vertices_offsets[a + 1]; ++i){
+        float dot_a = dot(transformed_vertices[i], transformed_normals[i]);
+
+        uint b_i = 0;
+        float dot_b = FLT_MAX;
+        farthestVertex(i, b, dot_b, b_i);
+
+        bool intersect_on_normal = dot_b < dot_a;
+        float dist = dot_a - dot_b;
+
+        // ssbo[j++].x = i;
+        // ssbo[j].y = 1234;
+        // ssbo[j++].x = b_i;
+        // ssbo[j++] = transformed_normals[i];
+        // ssbo[j++] = vec2(a, b);
+        // ssbo[j++].x = dist;
+
+        bool new_min = intersect_on_normal && dist < collision.dist;
+
+        collision.v_a    = new_min ? i : collision.v_a;
+        collision.v_b    = new_min ? b_i : collision.v_b;
+        collision.dist   = new_min ? dist : collision.dist;
+        collision.normal = new_min ? transformed_normals[i] : collision.normal;
+
+        colliding = colliding && intersect_on_normal;
+    }
+    
+    for(uint i = vertices_offsets[b]; i < vertices_offsets[b + 1]; ++i){
+        float dot_b = dot(transformed_vertices[i], transformed_normals[i]);
+
+        uint a_i = 0;
+        float dot_a = FLT_MAX;
+        farthestVertex(i, b, dot_a, a_i);
+
+
+        bool intersect_on_normal = dot_a < dot_b;
+        float dist = dot_b - dot_a;
+
+        // ssbo[j++] = transformed_vertices[i];
+        // ssbo[j++] = transformed_vertices[info.v];
+        // ssbo[j++] = transformed_normals[i];
+        // ssbo[j++] = vec2(dot_b, info.dist);
+        // ssbo[j++].x = dist;
+
+        bool new_min = intersect_on_normal && dist < collision.dist;
+
+        collision.v_a    = new_min ? a_i : collision.v_a;
+        collision.v_b    = new_min ? i : collision.v_b;
+        collision.dist   = new_min ? dist : collision.dist;
+        collision.normal = new_min ? -transformed_normals[i] : collision.normal;
+
+        colliding = colliding && intersect_on_normal;
+    }
+
+    uint value = colliding ? 1 : 0;
+    uint i = atomicAdd(variables[3], value);
+    collisions[i] = colliding ? collision : collisions[i];
+}

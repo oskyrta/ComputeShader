@@ -1,0 +1,37 @@
+#version 430
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+uniform uint pair;
+
+layout(std430, binding = 3) buffer TransformedVertices {
+    vec2 transformed_vertices[];
+};
+
+layout(std430, binding = 6) buffer PossibleCollisions {
+    uint possible_collisions[];
+};
+
+layout(std430, binding = 7) buffer Offsets {
+    uint offsets[];
+};
+
+layout(std430, binding = 8) buffer MinkowskiDifference {
+    vec2 minkowski_difference[];
+};
+
+layout(std430, binding = 9) buffer VerticesOffsets {
+    uint vertices_offsets[];
+};
+
+void main() {
+    uint a = possible_collisions[pair * 2 + 1];
+    uint b = possible_collisions[pair * 2 + 2];
+
+    uint i_a = vertices_offsets[a] + gl_WorkGroupID.x;
+    uint i_b = vertices_offsets[b] + gl_WorkGroupID.y;
+
+    uint i = gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x + offsets[pair];
+
+    minkowski_difference[i] = transformed_vertices[i_a] - transformed_vertices[i_b];
+}

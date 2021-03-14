@@ -1,0 +1,92 @@
+#version 430
+
+#define FLT_MAX 3.402823466e+38
+#define FLT_MIN 1.175494351e-38
+
+#define TASK_SETUP                    0
+#define TASK_TRANSFORM_POINTS         1
+#define TASK_COMPUTE_AABBs            2
+#define TASK_FIND_POSSIBLE_COLLISIONS 3
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+struct AABB {
+    vec2 bottom_left;
+    vec2 top_right;
+};
+
+uniform uint task;
+uniform uint points_count;
+uniform uint polygons_count;
+uniform uint possible_collisions_count;
+
+layout(std430, binding = 1) buffer Points {
+    vec2 points[];
+};
+
+layout(std430, binding = 2) buffer Indices {
+    uint indices[];
+};
+
+layout(std430, binding = 3) buffer TransformedPoints {
+    vec2 transformed_points[];
+};
+
+layout(std430, binding = 4) buffer Matrices {
+    mat3 matrices[];
+};
+
+layout(std430, binding = 5) buffer AABBs {
+    AABB aabbs[];
+};
+
+layout(std430, binding = 6) buffer PossibleCollisions {
+    bool possible_collisions[];
+};
+
+void setup() {
+    uint i = gl_GlobalInvocationID.x;
+
+    aabbs[i].bottom_left = vec2(FLT_MAX, FLT_MAX);
+    aabbs[i].top_right = vec2(FLT_MIN, FLT_MIN);
+}
+
+void transform_points() {    
+    uint i = gl_GlobalInvocationID.x;
+    transformed_points[i] = (matrices[indices[i]] * vec3(points[i], 1.f)).xy;
+}
+
+void compute_aabbs() {
+    uint i = gl_GlobalInvocationID.x;
+
+    aabbs[indices[i]].bottom_left = min(transformed_points[i], aabbs[indices[i]].bottom_left);
+    aabbs[indices[i]].top_right = max(transformed_points[i], aabbs[indices[i]].top_right);
+}
+
+void find_possible_collisions() {
+    uint i = gl_GlobalInvocationID.x * gl_NumWorkGroups.x + gl_GlobalInvocationID.y;
+    i = min(i, possible_collisions_count);
+
+    AABB a = aabbs[gl_GlobalInvocationID.x];
+    AABB b = aabbs[(gl_GlobalInvocationID.x + gl_GlobalInvocationID.y + 1) % gl_NumWorkGroups.x];
+
+    possible_collisions[i] = (a.bottom_left.x < b.top_right.x && a.top_right.x > b.bottom_left.x) && (a.bottom_left.y < b.top_right.y && a.top_right.y > b.bottom_left.y);
+}
+
+void main() {
+    if(task == TASK_SETUP) {
+        setup();
+    }
+
+    if(task == TASK_TRANSFORM_POINTS) {
+        transform_points();
+    }
+    
+    if(task == TASK_COMPUTE_AABBs) {
+         compute_aabbs();
+    }
+
+    if(task == TASK_FIND_POSSIBLE_COLLISIONS){
+        find_possible_collisions();
+    }
+}
