@@ -10,7 +10,8 @@ namespace ce {
 		T data[9];
 
 		mat3() = default;
-		mat3(const mat3&) = default;
+		mat3(const mat3& m) = default;
+
 		mat3(T scalar) {
 			data[0] = data[4] = data[8] = scalar;
 			data[1] = data[2] = data[3] = data[5] = data[6] = data[7] = 0;
@@ -69,8 +70,8 @@ namespace ce {
 		friend vec2<T> operator*(const mat3& m, const vec2<T>& v) {
 			vec2<T> ret;
 
-			ret.x = m.data[0] * v.x + m.data[3] * v.y;
-			ret.y = m.data[1] * v.x + m.data[4] * v.y;
+			ret.x = m.data[0] * v.x + m.data[3] * v.y + m.data[6];
+			ret.y = m.data[1] * v.x + m.data[4] * v.y + m.data[7];
 
 			return ret;
 		}
@@ -96,11 +97,11 @@ namespace ce {
 
 			return t * m;
 		};
-		static mat3 rotate(mat3 m, double degrees) {
+		static mat3 rotate(mat3 m, double radians) {
 			mat3<T> t(1);
 			
-			double s = sin(degrees * 0.0174532925);
-			double c = cos(degrees * 0.0174532925);
+			double s = sin(radians);
+			double c = cos(radians);
 			
 			// double s = sin( (degrees * 3.14159265) / 180);
 			// double c = cos( (degrees * 3.14159265) / 180);
