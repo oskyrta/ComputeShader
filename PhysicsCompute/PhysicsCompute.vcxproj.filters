@@ -27,6 +27,15 @@
     <ClCompile Include="physicsController.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="quickhull.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpuPolygon.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpuPhysicsController.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="polygon.h">
@@ -39,6 +48,15 @@
       <Filter>Source files</Filter>
     </ClInclude>
     <ClInclude Include="physicsController.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpuPolygon.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="quickhull.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpuPhysicsController.h">
       <Filter>Source files</Filter>
     </ClInclude>
   </ItemGroup>

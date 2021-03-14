@@ -8,438 +8,466 @@
 #include "polygon.h"
 #include "aabb.h"
 #include <chrono>
+#include "quickhull.h"
+#include "math/math.h"
+#include "physicsController.h"
+#include "opengl/ssbo.h"
+#include "gpuPolygon.h"
+#include "gpuPhysicsController.h"
+
+typedef unsigned int uint;
+
+enum BufferBindBase {
+	Buffer_SSBO,
+	Buffer_Vertices,
+	Buffer_Indices,
+	Buffer_VerticesOffsets,
+	Buffer_TransformedVertices,
+	Buffer_Matrices,
+	Buffer_AABBs,
+	Buffer_PossibleCollisions,
+	Buffer_Variables,
+	Buffer_Normals,
+	Buffer_TranformedNormals,
+	Buffer_Collisions,
+	Buffer_Rigidbodies
+};
 
 const int width = 512;
 const int height = 512;
 
+bool lbutton_pressed = false;
+
 ce::Window window;
+
+//
+//struct Collision {
+//	uint a;
+//	uint b;
+//	uint v_a;
+//	uint v_b;
+//	float dist;
+//	float align;
+//	ce::vec2f normal;
+//};
+//
+//struct GPURigidbody {
+//	float e;
+//	float rotation;
+//	float inv_mass;
+//	float inv_moment_of_inertia;
+//
+//	ce::vec2f position;
+//
+//	float angular_velocity;
+//	float torque;
+//
+//	ce::vec2f velocity;
+//	ce::vec2f force;
+//};
+//
+//
+//ce::Program sqr_shader;
 ce::Program line_shader;
+//ce::Program update_rigidbodies;
+//ce::Program resolve_collisions;
+//ce::Program calculate_aabbs_shader;
+ce::Program transformed_line_shader;
+//ce::Program transform_vertices_shader;
+//ce::Program possible_collisions_shader;
+//ce::Program separated_axis_check_shader;
+//
+//ce::gl::SSBO ssbo;
+//ce::gl::SSBO ssbo_vertices;
+//ce::gl::SSBO ssbo_indices;
+//ce::gl::SSBO ssbo_vertices_offsets;
+//ce::gl::SSBO ssbo_transformed_vertices;
+//ce::gl::SSBO ssbo_matrices;
+//ce::gl::SSBO ssbo_aabbs;
+//ce::gl::SSBO ssbo_possible_collisions;
+//ce::gl::SSBO ssbo_variables;
+//ce::gl::SSBO ssbo_normals;
+//ce::gl::SSBO ssbo_transformed_normals;
+//ce::gl::SSBO ssbo_collisions;
+//ce::gl::SSBO ssbo_rigidbodies;
+//
+//std::vector<uint> indices;
+//std::vector<ce::vec2f> vertices;
+//std::vector<ce::vec2f> normals;
+//std::vector<uint> vertices_offsets;
+std::vector<pc::Polygon> polygons;
+//std::vector<pc::GPUPolygon> gpu_polygons;
+//
+//size_t possible_collisions_max_count;
+//
+//unsigned int getPairsCount(unsigned int objects_count) {
+//	return objects_count * (objects_count - 1) / 2;
+//}
 
-#pragma region Helping functions
+pc::Polygon createPolygon() {
+	pc::Polygon polygon;
 
-float q_sqrt(float num) {
-	uint32_t i;
-	float x2, y;
-	const float threehalves = 1.5f;
-
-	x2 = num * 0.5f;
-	y = num;
-	memcpy(&i, &num, 4);
-	i = 0x5f3759df - (i >> 1);
-	memcpy(&y, &i, 4);
-	y = y * (threehalves - (x2 * y * y));
-
-	return y;
-}
-
-float crossProduct(const ce::vec2f& a, const ce::vec2f& b) {
-	return a.x * b.y - a.y * b.x;
-}
-
-float dotProduct(const ce::vec2f& a, const ce::vec2f& b) {
-	return a.x * b.x + a.y * b.y;
-}
-
-float projection(const ce::vec2f& a, const ce::vec2f& b) {
-	return (a.x * b.x + a.y * b.y) / b.len();
-}
-
-ce::vec2f perpendicular(const ce::vec2f& vec) {
-	return ce::vec2f{ vec.y, -vec.x };
-}
-
-bool clockwise(const ce::vec2f& vec, const ce::vec2f& point) {
-	return vec.y * point.x - vec.x * point.y > 0;
-}
-
-#pragma endregion
-
-#pragma region Quick hull
-
-void findHull(std::vector<ce::vec2f>& hull, const std::vector<ce::vec2f>& points, ce::vec2f left, ce::vec2f right) {
-	if (points.size() == 0) return;
-
-	if (points.size() == 1) {
-		hull.push_back(points[0]);
-		return;
+	std::vector<ce::vec2f> points;
+	for (int i = 0; i < 20; ++i) {
+		points.push_back(ce::vec2{ rand() % 40 - 20, rand() % 40 - 20 });
 	}
 
-	float dist = 0;
-	ce::vec2f farthest{};
-	ce::vec2f perp = perpendicular(left - right);
+	auto hull = quickHull(points);
 
-	for (int i = 0; i < points.size(); ++i) {
-		float dot = dotProduct(points[i], perp);
-		if (dot > dist) {
-			dist = dot;
-			farthest = points[i];
-		}
-	}
+	polygon.load(hull);
+	polygon.setProgram(&line_shader);
 
-	ce::vec2f rf = farthest - right;
-	ce::vec2f fl = left - farthest;
-	std::vector<ce::vec2f> a;
-	std::vector<ce::vec2f> b;
-
-	for (int i = 0; i < points.size(); ++i) {
-		if (clockwise(fl, points[i] - farthest)) {
-			a.push_back(points[i]);
-		}
-
-		if (clockwise(rf, points[i] - right)) {
-			b.push_back(points[i]);
-		}
-	}
-
-	findHull(hull, a, left, farthest);
-	hull.push_back(farthest);
-	findHull(hull, b, farthest, right);
+	return polygon;
 }
 
-std::vector<ce::vec2f> quickHull(std::vector<ce::vec2f>& points) {
-	std::vector<ce::vec2f> hull;
+void initScene() {
+	polygons.clear();
 
-	std::sort(points.begin(), points.end());
+	for (int i = 0; i < 10; ++i) {
+		pc::Polygon polygon = createPolygon();
 
-	ce::vec2f left = points[0];
-	ce::vec2f right = points.back();
+		polygon.transform.setPosition(ce::vec2{ rand() % 512, rand() % 512 });
 
-	ce::vec2f line = right - left;
-	std::vector<ce::vec2f> top;
-	std::vector<ce::vec2f> bottom;
+		polygon.getRigidbody()->velocity = ce::vec2{ rand() % 100 - 50, rand() % 100 - 50 };
+		polygon.getRigidbody()->force = { 0, -250 };
 
-	for (int i = 1; i < points.size() - 1; i++) {
-		float cross = crossProduct(points[i], line);
-
-		if (cross > 0) {
-			bottom.push_back(points[i]);
-		}
-		else if (cross < 0) {
-			top.push_back(points[i]);
-		}
+		polygons.push_back(polygon);
 	}
 
-	hull.push_back(left);
-	findHull(hull, top, left, right);
-	hull.push_back(right);
-	findHull(hull, bottom, right, left);
+	pc::Polygon floor;
+	floor.load({ {0, 0}, {0, 10}, {512, 10}, {512, 0} });
+	floor.transform.setPosition({ 256, 0 });
+	floor.getRigidbody()->makeStatic();
+	floor.setProgram(&line_shader);
 
-	return hull;
+	pc::Polygon wall1;
+	wall1.load({ {0, 0}, {0, 512}, {10, 512}, {10, 0} });
+	wall1.transform.setPosition({ 507, 256 });
+	wall1.getRigidbody()->makeStatic();
+	wall1.setProgram(&line_shader);
+
+	pc::Polygon wall2;
+	wall2.load({ {0, 0}, {0, 512}, {10, 512}, {10, 0} });
+	wall2.transform.setPosition({ 5, 256 });
+	wall2.getRigidbody()->makeStatic();
+	wall2.setProgram(&line_shader);
+
+	polygons.push_back(floor);
+	polygons.push_back(wall1);
+	polygons.push_back(wall2);
 }
 
-#pragma endregion
+uint* variables;
+//void initShaders() {
+//	std::vector<GPURigidbody> rigidbodies;
+//
+//	vertices.clear();
+//	indices.clear();
+//	normals.clear();
+//	vertices_offsets.clear();
+//
+//	unsigned int polygons_count = polygons.size();
+//
+//	possible_collisions_max_count = getPairsCount(polygons_count);
+//
+//	uint i = 0;
+//	for (const pc::Polygon& polygon : polygons) {
+//		vertices_offsets.push_back(vertices.size());
+//
+//		const auto& p_vertices = polygon.getVertices();
+//
+//		for (int v = 0; v < p_vertices.size(); ++v) {
+//			ce::vec2f normal = -(p_vertices[(v + 1) % p_vertices.size()] - p_vertices[v]).perpendicular();
+//			normals.push_back(normal.normalized());
+//
+//			vertices.push_back(p_vertices[v] - polygon.transform.getOrigin());
+//		}
+//
+//		const pc::Rigidbody* rigidbody = polygon.getRigidbody();
+//		rigidbodies.push_back(GPURigidbody {
+//			rigidbody->e,
+//			polygon.transform.getRotation(),
+//			rigidbody->inv_mass,
+//			rigidbody->inv_moment_of_inertia,
+//
+//			polygon.transform.getPosition(),
+//
+//			rigidbody->angular_velocity,
+//			rigidbody->torque,
+//			
+//			rigidbody->velocity,
+//			rigidbody->force
+//		});
+//		indices.insert(indices.end(), p_vertices.size(), i++);
+//	}
+//	vertices_offsets.push_back(vertices.size());
+//
+//	ssbo_vertices
+//		.create<ce::vec2f>(vertices.size())
+//		.bindBase(Buffer_Vertices)
+//		.setData<ce::vec2f>(vertices.data(), vertices.size());
+//
+//	ssbo_vertices_offsets
+//		.create<uint>(vertices_offsets.size())
+//		.bindBase(Buffer_VerticesOffsets)
+//		.setData<uint>(vertices_offsets.data(), vertices_offsets.size());
+//
+//	ssbo_indices
+//		.create<uint>(indices.size())
+//		.bindBase(Buffer_Indices)
+//		.setData<uint>(indices.data(), indices.size());
+//
+//	ssbo_transformed_vertices
+//		.create<ce::vec2f>(vertices.size())
+//		.bindBase(Buffer_TransformedVertices);
+//
+//	ssbo_matrices
+//		.create<float>(4 * 3 * polygons.size())
+//		.bindBase(Buffer_Matrices);
+//
+//	ssbo_aabbs
+//		.create<pc::AABB>(polygons.size())
+//		.bindBase(Buffer_AABBs);
+//
+//	ssbo_possible_collisions
+//		.create<uint>((possible_collisions_max_count + 1) * 2)
+//		.bindBase(Buffer_PossibleCollisions);
+//
+//	ssbo_variables
+//		.create<uint>(6)
+//		.bindBase(Buffer_Variables);
+//
+//	ssbo_normals
+//		.create<ce::vec2f>(normals.size())
+//		.bindBase(Buffer_Normals)
+//		.setData<ce::vec2f>(normals.data(), normals.size());
+//
+//	ssbo_transformed_normals
+//		.create<ce::vec2f>(normals.size())
+//		.bindBase(Buffer_TranformedNormals);
+//
+//	ssbo_collisions
+//		.create<Collision>(possible_collisions_max_count)
+//		.bindBase(Buffer_Collisions);
+//
+//	ssbo_rigidbodies
+//		.create<GPURigidbody>(polygons.size())
+//		.bindBase(Buffer_Rigidbodies)
+//		.setData<GPURigidbody>(rigidbodies.data(), rigidbodies.size());
+//
+//	for (uint i = 0; i < polygons.size(); ++i) {
+//		pc::GPUPolygon p;
+//		p.load(ssbo_transformed_vertices.getBufferId(), vertices_offsets[i], polygons[i].getVertices().size());
+//		p.setProgram(&transformed_line_shader);
+//
+//		gpu_polygons.push_back(p);
+//	}
+//
+//	update_rigidbodies.bind();
+//	update_rigidbodies.setFloat("deltatime", 0);
+//	glDispatchCompute(polygons.size(), 1, 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//	transform_vertices_shader.bind();
+//	glDispatchCompute(vertices.size(), 1, 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//}
 
-#pragma region Collisions
-
-struct PolygonsPair {
-	pc::Polygon* a;
-	pc::Polygon* b;
-
-	std::vector<ce::vec2f> transformed_vertices_a;
-	std::vector<ce::vec2f> transformed_vertices_b;
-
-	std::vector<ce::vec2f> minkowskiDifference;
-};
-
-struct Collision {
-	pc::Polygon* a;
-	pc::Polygon* b;
-
-	ce::vec2f contact_point_a;
-	ce::vec2f contact_point_b;
-	ce::vec2f escape_vector;
-	float distance;
-};
-
-bool isIntersectig(const pc::AABB& a, const pc::AABB& b) {
-	return (a.bottom_left.x < b.top_right.x&& a.top_right.x > b.bottom_left.x) && (a.bottom_left.y <b.top_right.y&& a.top_right.y > b.bottom_left.y);
+void init() {
+	initScene();
+	pc::gpu::init(polygons);
 }
 
-std::vector<ce::vec2f> getMinkowskiDifference(std::vector<ce::vec2f> vertices_a, std::vector<ce::vec2f> vertices_b) {
-	std::vector<ce::vec2f> result = std::vector<ce::vec2f>(vertices_a.size() * vertices_b.size());
-
-	for (int i = 0; i < vertices_a.size(); ++i) {
-		for (int j = 0; j < vertices_b.size(); ++j) {
-			result[i * vertices_b.size() + j] = vertices_a[i] - vertices_b[j];
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (action == GLFW_PRESS) {
+			init();
+			lbutton_pressed = true;
 		}
-	}
-
-	return result;
-}
-
-std::vector<PolygonsPair> getPossibleCollisions(std::vector<pc::Polygon>& polygons) {
-	std::vector<PolygonsPair> collisions;
-
-	std::vector<pc::AABB> bounding_boxes = std::vector<pc::AABB>(polygons.size());
-	for (int i = 0; i < polygons.size(); ++i) {
-		bounding_boxes[i] = polygons[i].getBoundingBox();
-	}
-
-	for (int i = 0; i < polygons.size() - 1; ++i) {
-		for (int j = i + 1; j < polygons.size(); ++j) {
-
-			if (isIntersectig(bounding_boxes[i], bounding_boxes[j])) {
-				auto vertices_a = polygons[i].getTransformedVertices();
-				auto vertices_b = polygons[j].getTransformedVertices();
-				auto minkowskiDifference = getMinkowskiDifference(vertices_a, vertices_b);
-
-				collisions.push_back({
-					&polygons[i],
-					&polygons[j],
-					vertices_a,
-					vertices_b,
-					quickHull( minkowskiDifference )
-				});
-			}
-
-		}
-	}
-
-	return collisions;
-}
-
-int getFarthestVertexInDirecton(const std::vector<ce::vec2f>& vertices, ce::vec2f direction) {
-	int index = 0;
-	float distance = std::numeric_limits<float>::lowest();
-
-	for (int i = 0; i < vertices.size(); ++i) {
-		float dot = dotProduct(vertices[i], direction);
-
-		if (dot > distance) {
-			distance = dot;
-			index = i;
-		}
-	}
-
-	return index;
-}
-
-void clipLeft(const ce::vec2f& point, const ce::vec2f& direction, ce::vec2f& v1, ce::vec2f& v2) {
-	bool v1_cw = clockwise(direction, v1 - point);
-	bool v2_cw = clockwise(direction, v2 - point);
-
-	ce::vec2f t = v2 - point;
-
-	float x, y;
-
-	if (v1_cw != v2_cw) {
-		ce::vec2f point2 = point + direction;
-
-		if (point.x - point2.x == 0) {
-			x = point.x;
-			float n = (point.x - v1.x) / (v2.x - v1.x);
-			y = v1.y + n * (v2.y - v1.y);
-		}
-		else if (v1.x - v2.x == 0) {
-			x = v1.x;
-			float n = (v1.x - point.x) / (point2.x - point.x);
-			y = point.y + n * (point2.y - point.y);
-		}
-		else {
-			float k1 = (point.y - point2.y) / (point.x - point2.x);
-			float b1 = point2.y - k1 * point2.x;
-
-			float k2 = (v1.y - v2.y) / (v1.x - v2.x);
-			float b2 = v2.y - k2 * v2.x;
-
-			x = (b2 - b1) / (k1 - k2);
-			y = k1 * x + b1;
-		}
-
-		if (v2_cw) {
-			v1 = { x, y };
-		}
-		else {
-			v2 = { x, y };
+		else if (action == GLFW_RELEASE) {
+			lbutton_pressed = false;
 		}
 	}
 }
 
-float getMostParallelEdge(const std::vector<ce::vec2f>& vertices, int vertexId, ce::vec2f direction, ce::vec2f& v1, ce::vec2f& v2) {
-	ce::vec2f v = vertices[vertexId];
-	ce::vec2f l = vertices[(vertexId + 1) % vertices.size()];
-	ce::vec2f r = vertices[(vertexId - 1 + vertices.size()) % vertices.size()];
+void countFPS(double deltatime) {
+	static int passed_frames = 0;
+	static double time_past = 0;
 
-	float dot_l = dotProduct((v - l).normalized(), direction);
-	float dot_r = dotProduct((v - r).normalized(), direction);
+	passed_frames++;
+	time_past += deltatime;
 
-	if (dot_r <= dot_l) {
-		v1 = r;
-		v2 = v;
-		return dot_r;
-	}
-	else {
-		v1 = v;
-		v2 = l;
-		return dot_l;
+	while (time_past > 1.) {
+		std::cout << "FPS: " << passed_frames << std::endl;
+		passed_frames = 0;
+		time_past -= 1;
 	}
 }
-
-std::vector<Collision> checkCollisions(const std::vector<PolygonsPair>& pairs) {
-	std::vector<Collision> collisions;
-
-	for (const auto& pair : pairs) {
-		bool colliding = true;
-		ce::vec2f perp{};
-		float depth = std::numeric_limits<float>::max();
-
-		// Check if minkowski difference contains the origin
-		for (int i = 0; i < pair.minkowskiDifference.size(); ++i) {
-			const ce::vec2f& point = pair.minkowskiDifference[i];
-			const ce::vec2f& next  = pair.minkowskiDifference[(i + 1) % pair.minkowskiDifference.size()];
-
-			ce::vec2f line = next - point;
-
-			if (!clockwise(line, -point)) {
-				colliding = false;
-				break;
-			}
-
-			// Search for the closest edge
-			float dot = dotProduct(-point, perpendicular(line).normalized());
-
-			if (dot < depth) {
-				depth = dot;
-				perp = perpendicular(line);
-			}
-		}
-
-		if (!colliding) continue;
-
-		ce::vec2f escape_vector = -perp.normalized();
-
-		int vertex_a1 = getFarthestVertexInDirecton(pair.transformed_vertices_a,  escape_vector);
-		int vertex_b1 = getFarthestVertexInDirecton(pair.transformed_vertices_b, -escape_vector);
-
-		// Search for the most parallel interacting edges
-		ce::vec2f ref1, ref2;
-		float dot_a = getMostParallelEdge(pair.transformed_vertices_a, vertex_a1, escape_vector, ref1, ref2);
-
-		ce::vec2f inc1, inc2;
-		float dot_b = getMostParallelEdge(pair.transformed_vertices_b, vertex_b1, -escape_vector, inc1, inc2);
-
-		// Find reference and incident edges
-		bool swapped = false;
-		if (std::abs(dot_b) < std::abs(dot_a)) {
-			swapped = true;
-			std::swap(ref1, inc1);
-			std::swap(ref2, inc2);
-		}
-
-		ce::vec2f ref_perp = perpendicular(ref2 - ref1);
-		clipLeft(ref1, -ref_perp, inc1, inc2);
-		clipLeft(ref2,  ref_perp, inc1, inc2);
-
-
-		float dot_inc1 = dotProduct(inc1 - ref1, ref_perp);
-		float dot_inc2 = dotProduct(inc2 - ref1, ref_perp);
-
-		ce::vec2f contact_b;
-		if (dot_inc1 > 0 && dot_inc2 > 0 && dot_inc1 == dot_inc2) {
-			contact_b = (inc1 + inc2) / 2.f;
-		}
-		else {
-			if (dot_inc1 > dot_inc2) {
-				contact_b = inc1;
-			}
-			else {
-				contact_b = inc2;
-			}
-		}
-		ce::vec2f contact_a = contact_b + escape_vector * depth * (swapped ? -1 : 1);
-
-		if (swapped) {
-			std::swap(contact_a, contact_b);
-		}
-
-		collisions.push_back(
-			Collision {
-				pair.a,
-				pair.b,
-				contact_a,
-				contact_b,
-				escape_vector,
-				depth
-			}
-		);
-	}
-
-	return collisions;
-}
-
-#pragma endregion
-
+//
+//void updatePhysicsGPU(const std::vector<pc::Polygon>& polygons, float deltatime) {
+//	auto start = std::chrono::high_resolution_clock::now();
+//
+//	// transform vertices
+//	transform_vertices_shader.bind();
+//	glDispatchCompute(vertices.size(), 1, 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//	// calculate aabb for each polygon
+//	calculate_aabbs_shader.bind();
+//	calculate_aabbs_shader.setUint("points_count", vertices.size());
+//	calculate_aabbs_shader.setUint("polygons_count", polygons.size());
+//	glDispatchCompute(1, 1, 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//	// find possible collisions
+//	possible_collisions_shader.bind();
+//	possible_collisions_shader.setUint("possible_collisions_count", possible_collisions_max_count);
+//	glDispatchCompute(polygons.size(), getPairsCount(polygons.size() + 1) / polygons.size(), 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//	glBindBuffer(GL_DISPATCH_INDIRECT_BUFFER, ssbo_variables.getBufferId());
+//		separated_axis_check_shader.bind();
+//		glDispatchComputeIndirect(0);
+//		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//		resolve_collisions.bind();
+//		glDispatchComputeIndirect(3 * sizeof(uint));
+//		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//	glBindBuffer(GL_DISPATCH_INDIRECT_BUFFER, 0);
+//
+//	update_rigidbodies.bind();
+//	update_rigidbodies.setFloat("deltatime", deltatime);
+//	glDispatchCompute(polygons.size(), 1, 1);
+//	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+//
+//	double time_elapsed = std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count();
+//
+//	//std::vector<uint> possible_collisions = ssbo_possible_collisions.copyData<uint>();
+//	std::vector<GPURigidbody> rigidbodies = ssbo_rigidbodies.copyData<GPURigidbody>();
+//	std::vector<Collision> collisions = ssbo_collisions.copyData<Collision>();
+//	std::vector<uint> variables = ssbo_variables.copyData<uint>();
+//	//std::vector<uint> offsets = ssbo_vertices_offsets.copyData<uint>();
+//	//std::vector<ce::vec2f> v = ssbo.copyData<ce::vec2f>();
+//	//std::vector<ce::vec2f> t_v = ssbo_transformed_normals.copyData<ce::vec2f>();
+//
+//	for (int i = 0; i < polygons.size(); ++i) {
+//		if (rigidbodies[i].velocity.sqrlen() > 500000) {
+//			int a = 0;
+//		}
+//	}
+//	//if (variables[3] != 0) {
+//	//	int a = 0;
+//	//}
+//
+//	//std::cout << time_elapsed << std::endl;
+//}
 
 int main() {
 	window.load(width, height, "Physics compute");
+	glfwSetMouseButtonCallback(window.getGLFWwindow(), mouse_button_callback);
+
+
+	pc::gpu::startup();
+
+	//transform_vertices_shader.attachShaderFromFile("transform_vertices.comp", ce::ShaderType::Compute);
+	//transform_vertices_shader.link();
+
+	//calculate_aabbs_shader.attachShaderFromFile("calculate_aabbs.comp", ce::ShaderType::Compute);
+	//calculate_aabbs_shader.link();
+
+	//possible_collisions_shader.attachShaderFromFile("possible_collisions.comp", ce::ShaderType::Compute);
+	//possible_collisions_shader.link();
+
+	//separated_axis_check_shader.attachShaderFromFile("separated_axis_check.comp", ce::ShaderType::Compute);
+	//separated_axis_check_shader.link();
+
+	//resolve_collisions.attachShaderFromFile("resolve_collisions.comp", ce::ShaderType::Compute);
+	//resolve_collisions.link();
+
+	//update_rigidbodies.attachShaderFromFile("update_rigidbodies.comp", ce::ShaderType::Compute);
+	//update_rigidbodies.link();
 
 	line_shader.attachShaderFromFile("line.vert", ce::ShaderType::Vertex);
 	line_shader.attachShaderFromFile("line.frag", ce::ShaderType::Fragment);
 	line_shader.link();
 
+	//int numbers[] = { 2, 3, 4, 5, 6 };
+	//int sqr_numbers[10000] = { };
+
+	//sqr_shader.attachShaderFromFile("sqr.comp", ce::ShaderType::Compute);
+	//sqr_shader.link();
+	//sqr_shader.bind();
+
+	//sqr_shader.setUint("t", 0);
+	//glDispatchCompute(1, 1, 1);
+	//
+	//sqr_shader.setUint("t", 1);
+	//glDispatchCompute(1, 1, 1);
+
+	//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+	//
+
+	//ssbo.getData(sqr_numbers, sizeof(sqr_numbers));
+
+
+
 	srand(time(0));
 
-	float t = static_cast<float>(10);
-	std::vector<pc::Polygon> polygons;
 
-	/*for (int i = 0; i < 30; ++i) {
-		pc::Polygon polygon;
+	//pc::Polygon polygon1;
+	//polygon1.load({ {200, 150}, {200, 250}, {205, 250}, {205, 150} });
+	//polygon1.getTransform()->setPosition({ 200, 220 });
+	//polygon1.setProgram(&line_shader);
+	//polygon1.getRigidbody()->angular_velocity = 3;
+	//polygon1.getRigidbody()->velocity = { 50, 0 };
+	////polygon1.getRigidbody()->force = { 0, -150 };
 
-		std::vector<ce::vec2f> points;
-		for (int i = 0; i < 20; ++i) {
-			points.push_back(ce::vec2{ rand() % 40 - 20, rand() % 40 - 20 });
-		}
+	//pc::Polygon polygon2;
+	//polygon2.load({ {200, 240}, {210, 250}, {230, 240}, {220, 220} });
+	//polygon2.getTransform()->setPosition({ 250, 200 });
+	//polygon2.setProgram(&line_shader);
 
-		auto hull = quickHull(points);
+	//polygons.push_back(polygon1);
+	//polygons.push_back(polygon2);
 
-		polygon.load(hull);
-		polygon.setProgram(&line_shader);
-		polygon.getTransform()->setPosition(ce::vec2{ rand() % 512, rand() % 512 });
+	initScene();
+	pc::gpu::init(polygons);
 
-		polygons.push_back(polygon);
-	}*/
+	const float physics_deltatime = 1.f / 500;
 
-	pc::Polygon polygon1;
-	polygon1.load({ {200, 200}, {200, 230}, {240, 230}, {240, 200} });
-	polygon1.setProgram(&line_shader);
-
-	pc::Polygon polygon2;
-	polygon2.load({ {200, 240}, {210, 250}, {230, 240}, {220, 220} });
-	polygon2.setProgram(&line_shader);
-
-	polygons.push_back(polygon2);
-	polygons.push_back(polygon1);
+	//updatePhysicsGPU(polygons, physics_deltatime);
 
 	auto last = std::chrono::high_resolution_clock::now();
-	double time_past = 0;
 	int passed_frames = 0;
+	double time_past = 0;
+
 	while (!window.shouldClose()) {
 		window.pollEvents();
-
 		glClear(GL_COLOR_BUFFER_BIT);
-		for (const auto& polygon : polygons) {
-			window.getRenderTarget()->draw(&polygon);
+
+		pc::gpu::draw(window.getRenderTarget());
+
+		//for (const auto& polygon : gpu_polygons) {
+		//	window.getRenderTarget()->draw(&polygon);
+		//}
+
+		auto current_time = std::chrono::high_resolution_clock::now();
+		double deltatime = std::chrono::duration<double>(current_time - last).count();
+		last = current_time;
+
+		countFPS(deltatime);
+
+		time_past += deltatime;
+
+		time_past = std::min(time_past, 2.);
+
+		while (time_past > physics_deltatime) {
+			//pc::updatePhysics(polygons, physics_deltatime);
+			pc::gpu::updatePhysics(physics_deltatime);
+			time_past -= physics_deltatime;
 		}
 
-		auto collisions = checkCollisions(getPossibleCollisions(polygons));
-
-		passed_frames++;
-		auto now = std::chrono::high_resolution_clock::now();
-		time_past += std::chrono::duration<double, std::milli>( now - last ).count();
-		last = now;
-
-		if (time_past > 1000.) {
-			time_past -= 1000;
-			std::cout << "FPS: " << passed_frames << std::endl;
-			passed_frames = 0;
-		}
-
-#ifdef _DEBUG
 		window.swapBuffers();
-#else
-		window.flush();
-#endif
-
 	}
 
 	return 0;
