@@ -246,6 +246,30 @@ namespace ce {
 
 #pragma region functions
 
+		template<typename U>
+		float cross(const ce::vec2<U>& b) const {
+			return x * static_cast<T>(b.y) - y * static_cast<T>(b.x);
+		}
+
+		template<typename U>
+		float dot(const ce::vec2<U>& b) const{
+			return x * static_cast<T>(b.x) + y * static_cast<T>(b.y);
+		}
+
+		template<typename U>
+		float project(const ce::vec2<U>& b) const {
+			return (x * static_cast<T>(b.x) + y * static_cast<T>(b.y)) / b.len();
+		}
+
+		vec2 perpendicular() const {
+			return ce::vec2{ y, -x };
+		}
+
+		template<typename U>
+		bool clockwise(const ce::vec2<U>& point) const {
+			return y * static_cast<T>(point.x) - x * static_cast<T>(point.y) > 0;
+		}
+
 		float len() const {
 			return std::sqrtf(x * x + y * y);
 		}
