@@ -24,7 +24,7 @@ namespace pc {
 		return aabb;
 	}
 
-	std::vector<ce::vec2f> pc::Polygon::getTransformedVertices()
+	std::vector<ce::vec2f> pc::Polygon::getTransformedVertices() const
 	{
 		std::vector<ce::vec2f> result = std::vector<ce::vec2f>(vertices.size());
 		ce::mat3f translate = transform.getTranslate();
@@ -37,6 +37,9 @@ namespace pc {
 	}
 
 	void Polygon::draw() const {
+		program->setMatrix("model", transform.getTranslate());
+		program->setFloat("depth", transform.getDepth() / 1000);
+
 		glBindVertexArray(vao);
 		glDrawArrays(GL_LINE_LOOP, 0, vertices.size());
 		glBindVertexArray(0);
@@ -57,6 +60,31 @@ namespace pc {
 			glEnableVertexAttribArray(0);
 
 		glBindVertexArray(0);
+
+
+		area = 0;
+		centroid = { 0, 0 };
+
+		for (int i = 0; i < vertices.size(); ++i)
+		{
+			ce::vec2f p1 = vertices[i];
+			int next = (i + 1) % vertices.size();
+			ce::vec2f p2 = vertices[next];
+
+			float cross = p1.cross(p2);
+			float triangleArea = 0.5f * cross;
+
+			area += triangleArea;
+
+			centroid += (p1 + p2) * triangleArea / 3.f;
+		}
+
+		centroid /= area;
+
+		area = std::abs(area);
+
+		transform.setOrigin(centroid);
+		rigidbody.load(vertices, centroid, area);
 	}
 
 }
