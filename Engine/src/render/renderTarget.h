@@ -15,6 +15,9 @@ namespace ce {
 		virtual void load(int width, int height);
 		void draw(const Drawable* object);
 
+		GLuint getFramebuffer() { return framebuffer; }
+		mat3f getProjectionMat() { return projection; }
+			 
 	protected:
 		GLuint framebuffer = 0;
 

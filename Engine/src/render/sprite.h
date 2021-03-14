@@ -10,6 +10,9 @@ namespace ce {
 		void load(vec2f size, const Texture* texture);
 		void draw() const;
 
+	public:
+		Transform transform;
+
 	private:
 		unsigned int vao = 0;
 		unsigned int vbo = 0;

@@ -18,11 +18,9 @@ namespace ce {
 
 		const Program* program = object->getProgram();
 
-		program->use();
+		program->bind();
 		program->setMatrix("projection", projection);
 		program->setMatrix("view", view);
-		program->setMatrix("model", object->getTransform()->getTranslate());
-		program->setFloat("depth", object->getTransform()->getDepth() / 1000);
 
 		object->draw();
 
