@@ -1,0 +1,455 @@
+{
+	"type": "gpu",
+	"avg_time": "2.11997",
+	"updates_count": "5171",
+	"points_count": "762",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.744786",
+	"updates_count": "5001",
+	"points_count": "38",
+	"objects_count": "5"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.905465",
+	"updates_count": "5002",
+	"points_count": "115",
+	"objects_count": "15"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.1565",
+	"updates_count": "5001",
+	"points_count": "180",
+	"objects_count": "25"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.09816",
+	"updates_count": "5004",
+	"points_count": "260",
+	"objects_count": "35"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.22424",
+	"updates_count": "5005",
+	"points_count": "338",
+	"objects_count": "45"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.34637",
+	"updates_count": "5009",
+	"points_count": "405",
+	"objects_count": "55"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.48649",
+	"updates_count": "5001",
+	"points_count": "488",
+	"objects_count": "65"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.58236",
+	"updates_count": "5025",
+	"points_count": "560",
+	"objects_count": "75"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.69765",
+	"updates_count": "5017",
+	"points_count": "627",
+	"objects_count": "85"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.77496",
+	"updates_count": "5021",
+	"points_count": "683",
+	"objects_count": "95"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.93946",
+	"updates_count": "5057",
+	"points_count": "776",
+	"objects_count": "105"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.06471",
+	"updates_count": "5035",
+	"points_count": "829",
+	"objects_count": "115"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.2693",
+	"updates_count": "5055",
+	"points_count": "930",
+	"objects_count": "125"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.45481",
+	"updates_count": "5007",
+	"points_count": "1018",
+	"objects_count": "135"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.52761",
+	"updates_count": "5273",
+	"points_count": "1046",
+	"objects_count": "145"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.73114",
+	"updates_count": "5406",
+	"points_count": "1134",
+	"objects_count": "155"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.9382",
+	"updates_count": "5305",
+	"points_count": "1227",
+	"objects_count": "165"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.85999",
+	"updates_count": "5043",
+	"points_count": "1296",
+	"objects_count": "175"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.27191",
+	"updates_count": "5357",
+	"points_count": "1386",
+	"objects_count": "185"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.46671",
+	"updates_count": "5177",
+	"points_count": "1432",
+	"objects_count": "195"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.31622",
+	"updates_count": "5132",
+	"points_count": "1530",
+	"objects_count": "205"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.55102",
+	"updates_count": "5187",
+	"points_count": "1595",
+	"objects_count": "215"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.10744",
+	"updates_count": "5127",
+	"points_count": "1641",
+	"objects_count": "225"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.17389",
+	"updates_count": "5204",
+	"points_count": "1743",
+	"objects_count": "235"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.73194",
+	"updates_count": "5242",
+	"points_count": "1769",
+	"objects_count": "245"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.81911",
+	"updates_count": "5385",
+	"points_count": "1869",
+	"objects_count": "255"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.75809",
+	"updates_count": "5482",
+	"points_count": "1947",
+	"objects_count": "265"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.84033",
+	"updates_count": "5053",
+	"points_count": "1993",
+	"objects_count": "275"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.66717",
+	"updates_count": "5360",
+	"points_count": "2081",
+	"objects_count": "285"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.4511",
+	"updates_count": "5021",
+	"points_count": "2134",
+	"objects_count": "295"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.898419",
+	"updates_count": "5009",
+	"points_count": "73",
+	"objects_count": "10"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.962353",
+	"updates_count": "5006",
+	"points_count": "141",
+	"objects_count": "20"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.07142",
+	"updates_count": "5006",
+	"points_count": "224",
+	"objects_count": "30"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.1833",
+	"updates_count": "5008",
+	"points_count": "294",
+	"objects_count": "40"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.26837",
+	"updates_count": "5001",
+	"points_count": "377",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.42141",
+	"updates_count": "5013",
+	"points_count": "443",
+	"objects_count": "60"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.57602",
+	"updates_count": "5007",
+	"points_count": "527",
+	"objects_count": "70"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.62737",
+	"updates_count": "5014",
+	"points_count": "584",
+	"objects_count": "80"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.75559",
+	"updates_count": "5011",
+	"points_count": "664",
+	"objects_count": "90"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.89664",
+	"updates_count": "5029",
+	"points_count": "735",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.0097",
+	"updates_count": "5062",
+	"points_count": "827",
+	"objects_count": "110"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.19464",
+	"updates_count": "5033",
+	"points_count": "895",
+	"objects_count": "120"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.32068",
+	"updates_count": "5271",
+	"points_count": "946",
+	"objects_count": "130"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.49144",
+	"updates_count": "5242",
+	"points_count": "1029",
+	"objects_count": "140"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.66472",
+	"updates_count": "5495",
+	"points_count": "1109",
+	"objects_count": "150"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.77388",
+	"updates_count": "5343",
+	"points_count": "1170",
+	"objects_count": "160"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.97882",
+	"updates_count": "5405",
+	"points_count": "1238",
+	"objects_count": "170"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.14575",
+	"updates_count": "5412",
+	"points_count": "1306",
+	"objects_count": "180"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.40397",
+	"updates_count": "5112",
+	"points_count": "1395",
+	"objects_count": "190"
+},
+{
+	"type": "gpu",
+	"avg_time": "2.98879",
+	"updates_count": "5450",
+	"points_count": "1451",
+	"objects_count": "200"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.41272",
+	"updates_count": "5263",
+	"points_count": "1521",
+	"objects_count": "210"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.9176",
+	"updates_count": "5232",
+	"points_count": "1604",
+	"objects_count": "220"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.62732",
+	"updates_count": "5164",
+	"points_count": "1660",
+	"objects_count": "230"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.68047",
+	"updates_count": "5367",
+	"points_count": "1755",
+	"objects_count": "240"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.98818",
+	"updates_count": "5286",
+	"points_count": "1815",
+	"objects_count": "250"
+},
+{
+	"type": "gpu",
+	"avg_time": "4.07687",
+	"updates_count": "5270",
+	"points_count": "1908",
+	"objects_count": "260"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.96019",
+	"updates_count": "5311",
+	"points_count": "1992",
+	"objects_count": "270"
+},
+{
+	"type": "gpu",
+	"avg_time": "4.1121",
+	"updates_count": "5271",
+	"points_count": "2062",
+	"objects_count": "280"
+},
+{
+	"type": "gpu",
+	"avg_time": "4.18195",
+	"updates_count": "5321",
+	"points_count": "2138",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.96944",
+	"updates_count": "5001",
+	"points_count": "2229",
+	"objects_count": "300"
+},
+{
+	"type": "gpu",
+	"avg_time": "4.62314",
+	"updates_count": "5181",
+	"points_count": "2254",
+	"objects_count": "310"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.9407",
+	"updates_count": "5178",
+	"points_count": "2357",
+	"objects_count": "320"
+},
+{
+	"type": "gpu",
+	"avg_time": "3.77527",
+	"updates_count": "5408",
+	"points_count": "2424",
+	"objects_count": "330"
+},
+{
+	"type": "gpu",
+	"avg_time": "4.06709",
+	"updates_count": "5273",
+	"points_count": "2449",
+	"objects_count": "340"
+},

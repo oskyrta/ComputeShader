@@ -14,6 +14,8 @@ namespace ce {
 		bool shouldClose() { return glfwWindowShouldClose(window); }
 		void pollEvents() { glfwPollEvents(); }
 		void swapBuffers() { glfwSwapBuffers(window); }
+
+		void close() { glfwDestroyWindow(window); }
 		void flush() { glFlush(); }
 
 		RenderTarget* getRenderTarget() { return &renderTarget; }

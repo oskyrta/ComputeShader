@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gpuContactPoints.cpp" />
     <ClCompile Include="gpuPhysicsController.cpp" />
     <ClCompile Include="gpuPolygon.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.h" />
+    <ClInclude Include="gpuContactPoints.h" />
     <ClInclude Include="gpuPhysicsController.h" />
     <ClInclude Include="gpuPolygon.h" />
     <ClInclude Include="physicsController.h" />

@@ -17,16 +17,6 @@ const float FLT_MIN = 1.175494351e-38;
 #define Buffer_Collisions 11
 #define Buffer_Rigidbodies 12
 
-struct Collision {
-    uint a;
-    uint b;
-    uint v_a;
-    uint v_b;
-    float dist;
-    float align;
-    vec2 normal;
-};
-
 struct Rigidbody {
     float e;
     float rotation;

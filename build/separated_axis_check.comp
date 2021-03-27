@@ -91,13 +91,6 @@ void main() {
         bool intersect_on_normal = dot_b < dot_a;
         float dist = dot_a - dot_b;
 
-        // ssbo[j++].x = i;
-        // ssbo[j].y = 1234;
-        // ssbo[j++].x = b_i;
-        // ssbo[j++] = transformed_normals[i];
-        // ssbo[j++] = vec2(a, b);
-        // ssbo[j++].x = dist;
-
         bool new_min = intersect_on_normal && dist < collision.dist;
 
         collision.v_a    = new_min ? i : collision.v_a;
@@ -118,12 +111,6 @@ void main() {
 
         bool intersect_on_normal = dot_a < dot_b;
         float dist = dot_b - dot_a;
-
-        // ssbo[j++] = transformed_vertices[i];
-        // ssbo[j++] = transformed_vertices[info.v];
-        // ssbo[j++] = transformed_normals[i];
-        // ssbo[j++] = vec2(dot_b, info.dist);
-        // ssbo[j++].x = dist;
 
         bool new_min = intersect_on_normal && dist < collision.dist;
 

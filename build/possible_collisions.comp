@@ -68,22 +68,22 @@ layout(std430, binding = Buffer_SSBO) buffer SSBO {
 
 
 void main() {
-    uint i_a = gl_WorkGroupID.x;
-    uint i_b = (gl_WorkGroupID.x + gl_WorkGroupID.y + 1) % gl_NumWorkGroups.x;
+    uint a_i = gl_WorkGroupID.x;
+    uint b_i = (gl_WorkGroupID.x + gl_WorkGroupID.y + 1) % gl_NumWorkGroups.x;
 
-    AABB a = aabbs[i_a];
-    AABB b = aabbs[i_b];
+    AABB a = aabbs[a_i];
+    AABB b = aabbs[b_i];
 
-    bool static_bodies = (rigidbodies[i_a].inv_mass == 0.f && rigidbodies[i_b].inv_mass == 0.f);
+    bool static_bodies = (rigidbodies[a_i].inv_mass == 0.f && rigidbodies[b_i].inv_mass == 0.f);
     bool intersecting = (a.bottom_left.x < b.top_right.x && a.top_right.x > b.bottom_left.x) && (a.bottom_left.y < b.top_right.y && a.top_right.y > b.bottom_left.y);
 
-    bool valid_collision = intersecting && !static_bodies && gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x < possible_collisions_count;
+    bool is_valid = intersecting && !static_bodies && gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x < possible_collisions_count;
     
     uint i; 
-    i = atomicAdd(variables[0], uint(valid_collision));
+    i = atomicAdd(variables[0], uint(is_valid));
 
-    i = valid_collision ? i : possible_collisions_count;
+    i = is_valid ? i : possible_collisions_count;
 
-    possible_collisions[i * 2]     = i_a;
-    possible_collisions[i * 2 + 1] = i_b;
+    possible_collisions[i * 2]     = a_i;
+    possible_collisions[i * 2 + 1] = b_i;
 }
