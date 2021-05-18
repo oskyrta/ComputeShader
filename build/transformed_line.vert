@@ -8,6 +8,8 @@ uniform mat3 projection;
 uniform mat3 view;
 uniform mat3 model;
 
+uniform vec4 line_color;
+
 uniform float depth;
 
 out vec4 fragColor;
@@ -17,5 +19,5 @@ void main() {
 	pos.z = depth;
 	gl_Position = pos;
 	
-	fragColor = vec4(0, 1, 0, 1);
+	fragColor = line_color;
 }

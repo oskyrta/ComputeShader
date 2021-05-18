@@ -15,6 +15,7 @@ const float FLT_MIN = 1.175494351e-38;
 #define Buffer_Normals 9
 #define Buffer_TransformedNormals 10
 #define Buffer_Collisions 11
+#define Buffer_ContactPoints 13
 
 struct VertexInfo {
     uint v;
@@ -106,7 +107,7 @@ void main() {
 
         uint a_i = 0;
         float dot_a = FLT_MAX;
-        farthestVertex(i, b, dot_a, a_i);
+        farthestVertex(i, a, dot_a, a_i);
 
 
         bool intersect_on_normal = dot_a < dot_b;

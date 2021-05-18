@@ -16,6 +16,7 @@ const float FLT_MIN = 1.175494351e-38;
 #define Buffer_TransformedNormals 10
 #define Buffer_Collisions 11
 #define Buffer_Rigidbodies 12
+#define Buffer_ContactPoints 13
 
 struct Collision {
     uint a;
@@ -68,16 +69,21 @@ layout(std430, binding = Buffer_SSBO) buffer SSBO {
     vec2 ssbo[];
 };
 
+layout(std430, binding = Buffer_ContactPoints) buffer ContactPoints {
+    vec2 contactPoints[];
+};
 
 
-float getMostParallerEdge(uint o, uint vertex_id, vec2 dir, inout vec2 v1, inout vec2 v2){
+
+
+float getMostParallerEdge(uint obj_i, uint vertex_id, vec2 dir, inout vec2 v1, inout vec2 v2){
     vec2 v = transformed_vertices[vertex_id];
 
-    uint v_id = vertex_id - vertices_offsets[o];
-    uint size = vertices_offsets[o + 1] - vertices_offsets[o];
+    uint v_id = vertex_id - vertices_offsets[obj_i];
+    uint size = vertices_offsets[obj_i + 1] - vertices_offsets[obj_i];
 
-    vec2 l = transformed_vertices[ vertices_offsets[o] + ((v_id + 1) % size) ];
-    vec2 r = transformed_vertices[ vertices_offsets[o] + ((v_id - 1 + size) % size) ];
+    vec2 l = transformed_vertices[ vertices_offsets[obj_i] + ((v_id + 1) % size) ];
+    vec2 r = transformed_vertices[ vertices_offsets[obj_i] + ((v_id - 1 + size) % size) ];
 
     float dot_l = dot(normalize(v - l), dir);
     float dot_r = dot(normalize(v - r), dir);
@@ -154,10 +160,12 @@ void main() {
     float dot_inc2 = dot(inc2 - ref1, ref_perp);
 
     vec2 contact_b;
-    contact_b = dot_inc1 > 0 && dot_inc2 > 0 && abs(dot_inc1 - dot_inc2) < 0.1f ? (inc1 + inc2) * 0.5f : ( dot_inc1 > dot_inc2 ? inc1 : inc2 );
+    contact_b = dot_inc1 > 0 && dot_inc2 > 0 && abs(dot_inc1 - dot_inc2) < 1.f ? (inc1 + inc2) * 0.5f : ( dot_inc1 > dot_inc2 ? inc1 : inc2 );
     vec2 contact_a = contact_b + escape_vector * c.dist * (swapped ? -1 : 1);
 
     conditionalSwap(swapped, contact_a, contact_b);
+
+    contactPoints[gl_WorkGroupID.x] = (contact_a + contact_b) * 0.5f;
 
     contact_a -= rigidbodies[c.a].position;
     contact_b -= rigidbodies[c.b].position;

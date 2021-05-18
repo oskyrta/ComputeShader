@@ -1236,3 +1236,10 @@
 	"points_count": "2164",
 	"objects_count": "290"
 },
+{
+	"type": "gpu",
+	"avg_time": "0.0362665",
+	"updates_count": "5005",
+	"points_count": "37",
+	"objects_count": "5"
+},

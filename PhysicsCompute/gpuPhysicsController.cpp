@@ -1,6 +1,7 @@
 #include "gpuPhysicsController.h"
 #include "opengl/ssbo.h"
 #include "gpuPolygon.h"
+#include "gpuContactPoints.h"
 #include <chrono>
 #include <iostream>
 
@@ -20,7 +21,8 @@ namespace pc::gpu {
 		Buffer_Normals,
 		Buffer_TranformedNormals,
 		Buffer_Collisions,
-		Buffer_Rigidbodies
+		Buffer_Rigidbodies,
+		Buffer_ContactPoints
 	};
 
 	struct Collision {
@@ -72,6 +74,9 @@ namespace pc::gpu {
 	ce::gl::SSBO ssbo_transformed_normals;
 	ce::gl::SSBO ssbo_collisions;
 	ce::gl::SSBO ssbo_rigidbodies;
+	ce::gl::SSBO ssbo_contact_points;
+
+	GPUContactPoints contact_points;
 
 	std::vector<uint> indices;
 	std::vector<ce::vec2f> vertices;
@@ -133,7 +138,7 @@ namespace pc::gpu {
 
 			const auto& p_vertices = polygon.getVertices();
 
-			for (int v = 0; v < p_vertices.size(); ++v) {
+			for (size_t v = 0; v < p_vertices.size(); ++v) {
 				ce::vec2f normal = -(p_vertices[(v + 1) % p_vertices.size()] - p_vertices[v]).perpendicular();
 				normals.push_back(normal.normalized());
 
@@ -212,6 +217,11 @@ namespace pc::gpu {
 			.bindBase(Buffer_Rigidbodies)
 			.setData<GPURigidbody>(rigidbodies.data(), rigidbodies.size());
 
+		ssbo_contact_points
+			.create<ce::vec2f>(possible_collisions_max_count)
+			.bindBase(Buffer_PossibleCollisions);
+
+
 		for (uint i = 0; i < polygons.size(); ++i) {
 			pc::GPUPolygon p;
 			p.load(ssbo_transformed_vertices.getBufferId(), vertices_offsets[i], polygons[i].getVertices().size());
@@ -219,6 +229,9 @@ namespace pc::gpu {
 
 			gpu_polygons.push_back(p);
 		}
+
+		contact_points.load(ssbo_contact_points.getBufferId());
+		contact_points.setProgram(&transformed_line_shader);
 
 		update_rigidbodies_shader.bind();
 		update_rigidbodies_shader.setFloat("deltatime", 0);
@@ -234,6 +247,10 @@ namespace pc::gpu {
 		for (const auto& polygon : gpu_polygons) {
 			renderTarget->draw(&polygon);
 		}
+
+		auto variables = ssbo_variables.copyData<unsigned int>();
+		contact_points.setCount(variables[3]);
+		renderTarget->draw(&contact_points);
 	}
 
 	void updatePhysics(float deltatime) {

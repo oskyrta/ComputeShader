@@ -25,7 +25,7 @@ const int width = 512;
 const int height = 512;
 
 bool use_gpu = true;
-int objects_count = 200;
+int objects_count = 15;
 int points_count = 0;
 
 bool lbutton_pressed = false;
@@ -39,7 +39,7 @@ pc::Polygon createPolygon() {
 
 	std::vector<ce::vec2f> points;
 	for (int i = 0; i < 20; ++i) {
-		points.push_back(ce::vec2{ rand() % 20 - 10, rand() % 20 - 10 });
+		points.push_back(ce::vec2{ rand() % 40 - 20, rand() % 40 - 20 });
 	}
 
 	auto hull = quickHull(points);
@@ -68,7 +68,7 @@ void initScene() {
 
 	pc::Polygon floor;
 	floor.load({ {0, 0}, {0, 10}, {512, 10}, {512, 0} });
-	floor.transform.setPosition({ 256, 0 });
+	floor.transform.setPosition({ 256, 5 });
 	floor.getRigidbody()->makeStatic();
 	floor.setProgram(&line_shader);
 
@@ -124,6 +124,9 @@ int main(int argc, char** argv) {
 	window.load(width, height, "Physics compute");
 	glfwSetMouseButtonCallback(window.getGLFWwindow(), mouse_button_callback);
 	//glClearColor(1, 1, 1, 1);
+
+	window.getTransform()->setScale({ 0.7f, 0.7f });
+	window.getTransform()->setPosition({ 50, 50 });
 
 	pc::gpu::startup();
 
@@ -197,14 +200,14 @@ int main(int argc, char** argv) {
 
 		
 
-		if (update_times.size() > 5000) {
-			window.close();
-			break;
-		}
+		//if (update_times.size() > 5000) {
+		//	window.close();
+		//	break;
+		//}
 
 
 		if (use_gpu) {
-			//pc::gpu::draw(window.getRenderTarget());
+			pc::gpu::draw(window.getRenderTarget());
 		}
 		else {
 			for (const auto& polygon : polygons) {
@@ -224,7 +227,7 @@ int main(int argc, char** argv) {
 	std::cout << "Average time: " << total_time / size << std::endl;
 
 	//std::ofstream logfile;
-	//logfile.open("nvidia_log.json", std::ios_base::app);
+	//logfile.open("log.json", std::ios_base::app);
 	//logfile << "{" << std::endl;
 	//logfile << "\t" << R"("type": ")" << (use_gpu ? "gpu" : "cpu") << R"(",)" << std::endl;
 	//logfile << "\t" << R"("avg_time": ")" << total_time / (size ) << R"(",)" << std::endl;

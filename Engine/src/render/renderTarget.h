@@ -17,6 +17,8 @@ namespace ce {
 
 		GLuint getFramebuffer() { return framebuffer; }
 		mat3f getProjectionMat() { return projection; }
+
+		void setView(mat3f view) { this->view = view; };
 			 
 	protected:
 		GLuint framebuffer = 0;
