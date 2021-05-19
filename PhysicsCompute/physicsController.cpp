@@ -270,8 +270,8 @@ namespace pc {
 			rigidbody_a->angular_velocity += collision.contact_point_a.cross(collision.normal * j) * rigidbody_a->inv_moment_of_inertia;
 			rigidbody_b->angular_velocity -= collision.contact_point_b.cross(collision.normal * j) * rigidbody_b->inv_moment_of_inertia;
 
-			const float percent = 0.2f;
-			const float slop = 0.8f;
+			const float percent = 0.1f;
+			const float slop = 0.3f;
 			ce::vec2f correction = collision.normal * percent * (std::max(collision.depth - slop, 0.0f) / (collision.a->getRigidbody()->inv_mass + collision.b->getRigidbody()->inv_mass));
 			collision.a->transform.move(-correction * collision.a->getRigidbody()->inv_mass);
 			collision.b->transform.move( correction * collision.b->getRigidbody()->inv_mass);
