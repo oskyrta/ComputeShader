@@ -8,8 +8,8 @@ namespace ce {
 		void setDepth(float depth) { m_depth = depth; }
 		float getDepth() const { return ((m_parent ? m_parent->getDepth() : 0) + m_depth); }
 
-		void rotate(float degrees) { m_rotation += degrees; }
-		void setRotation(float degrees) { m_rotation = degrees; }
+		void rotate(float radians) { m_rotation += radians; }
+		void setRotation(float radians) { m_rotation = radians; }
 		float getRotation() const { return (m_parent ? m_parent->getRotation() + m_rotation : m_rotation); }
 
 		void scale(vec2f scale) { m_scale *= scale; }
@@ -37,8 +37,8 @@ namespace ce {
 	protected:
 		Transform* m_parent  = nullptr;
 							 
-		float m_depth		 = 0;
-		float m_rotation	 = 0;
+		float m_depth	 = 0;
+		float m_rotation = 0;
 		vec2f m_scale	 = vec2f(1, 1);
 		vec2f m_position = vec2f(0, 0);
 		vec2f m_origin	 = vec2f(0, 0);

@@ -1,0 +1,204 @@
+#version 430
+
+const float FLT_MAX = 3.402823466e+38;
+const float FLT_MIN = 1.175494351e-38;
+
+#define Buffer_SSBO 0
+#define Buffer_Vertices 1
+#define Buffer_Indices 2
+#define Buffer_VerticesOffsets 3
+#define Buffer_TransformedVertices 4
+#define Buffer_Matrices 5
+#define Buffer_AABBs 6
+#define Buffer_PossibleCollisions 7
+#define Buffer_Variables 8
+#define Buffer_Normals 9
+#define Buffer_TransformedNormals 10
+#define Buffer_Collisions 11
+#define Buffer_Rigidbodies 12
+#define Buffer_ContactPoints 13
+
+struct Collision {
+    uint a;
+    uint b;
+    uint v_a;
+    uint v_b;
+    float dist;
+    float align;
+    vec2 normal;
+};
+
+struct Rigidbody {
+    float e;
+    float rotation;
+    float inv_mass;
+    float inv_moment_of_inertia;
+    
+    vec2 position;
+
+    float angular_velocity;
+    float torque;
+
+    vec2 velocity;
+    vec2 force; 
+};
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+layout(std430, binding = Buffer_TransformedVertices) buffer TransformedVertices {
+    vec2 transformed_vertices[];
+};
+
+layout(std430, binding = Buffer_VerticesOffsets) buffer VerticesOffsets {
+    uint vertices_offsets[];
+};
+
+layout(std430, binding = Buffer_Collisions) buffer Collisions {
+    Collision collisions[];
+};
+
+layout(std430, binding = Buffer_Variables) buffer Variables {
+    uint variables[];
+};
+
+layout(std430, binding = Buffer_Rigidbodies) buffer Rigidbodies {
+    Rigidbody rigidbodies[];
+};
+
+layout(std430, binding = Buffer_SSBO) buffer SSBO {
+    vec2 ssbo[];
+};
+
+layout(std430, binding = Buffer_ContactPoints) buffer ContactPoints {
+    vec2 contactPoints[];
+};
+
+
+
+
+float getMostParallerEdge(uint obj_i, uint vertex_id, vec2 dir, inout vec2 v1, inout vec2 v2){
+    vec2 v = transformed_vertices[vertex_id];
+
+    uint v_id = vertex_id - vertices_offsets[obj_i];
+    uint size = vertices_offsets[obj_i + 1] - vertices_offsets[obj_i];
+
+    vec2 l = transformed_vertices[ vertices_offsets[obj_i] + ((v_id + 1) % size) ];
+    vec2 r = transformed_vertices[ vertices_offsets[obj_i] + ((v_id - 1 + size) % size) ];
+
+    float dot_l = dot(normalize(v - l), dir);
+    float dot_r = dot(normalize(v - r), dir);
+
+    v1 = dot_r <= dot_l ? r : v;
+    v2 = dot_r <= dot_l ? v : l;
+
+    return dot_r <= dot_l ? dot_r : dot_l;
+}
+
+bool clockwise(vec2 dir, vec2 point){
+    return dir.y * point.x - dir.x * point.y > 0;
+}
+
+void clipLeft(vec2 point, vec2 direction, inout vec2 v1, inout vec2 v2){
+    bool v1_cw = clockwise(direction, v1 - point);
+    bool v2_cw = clockwise(direction, v2 - point);
+    bool cliping = v1_cw != v2_cw;
+
+    vec2 point2 = point + direction;
+
+    float n1 = (point.x - v1.x) / (v2.x - v1.x);
+    float n2 = (v1.x - point.x) / (point2.x - point.x);
+
+    float k1 = (point.y - point2.y) / (point.x - point2.x);
+    float b1 = point2.y - k1 * point2.x;
+
+    float k2 = (v1.y - v2.y) / (v1.x - v2.x);
+    float b2 = v2.y - k2 * v2.x;
+
+    vec2 v;
+    v.x = cliping ? (point.x == point2.x ? point.x                   : (v1.x == v2.x ? v1.x                                : (b2 - b1) / (k1 - k2) )) : 0;
+    v.y = cliping ? (point.x == point2.x ? n1 * (v2.y - v1.y) + v1.y : (v1.x == v2.x ? n2 * (point2.y - point.y) + point.y : k1 * v.x + b1 ))         : 0;
+
+    v1 = cliping && v2_cw ? v : v1;
+    v2 = cliping && !v2_cw? v : v2;
+}
+
+void conditionalSwap(bool swap, inout vec2 a, inout vec2 b){
+    vec2 t = a;
+    a = swap ? b : a;
+    b = swap ? t : b;
+}
+
+vec2 perpendicular(vec2 v){
+    return vec2(v.y, -v.x);
+}
+
+float cross_vec2(vec2 a, vec2 b){
+    return a.x * b.y - a.y * b.x;
+}
+
+void main() {
+    Collision c = collisions[gl_WorkGroupID.x];
+
+    vec2 escape_vector = c.normal;
+
+    vec2 ref1, ref2;
+    float dot_a = getMostParallerEdge(c.a, c.v_a, escape_vector, ref1, ref2);
+
+    vec2 inc1, inc2;
+    float dot_b = getMostParallerEdge(c.b, c.v_b, -escape_vector, inc1, inc2);
+
+    bool swapped = abs(dot_b) < abs(dot_a);
+    conditionalSwap(swapped, ref1, inc1);
+    conditionalSwap(swapped, ref2, inc2);
+
+    vec2 ref_perp = perpendicular(ref2 - ref1);
+
+    clipLeft(ref1, -ref_perp, inc1, inc2);
+    clipLeft(ref2,  ref_perp, inc1, inc2);
+
+    float dot_inc1 = dot(inc1 - ref1, ref_perp);
+    float dot_inc2 = dot(inc2 - ref1, ref_perp);
+
+    vec2 contact_b;
+    contact_b = dot_inc1 > 0 && dot_inc2 > 0 && abs(dot_inc1 - dot_inc2) < 1.f ? (inc1 + inc2) * 0.5f : ( dot_inc1 > dot_inc2 ? inc1 : inc2 );
+    vec2 contact_a = contact_b + escape_vector * c.dist * (swapped ? -1 : 1);
+
+    conditionalSwap(swapped, contact_a, contact_b);
+
+    contactPoints[gl_WorkGroupID.x] = (contact_a + contact_b) * 0.5f;
+
+    contact_a -= rigidbodies[c.a].position;
+    contact_b -= rigidbodies[c.b].position;
+
+    float e = min(rigidbodies[c.a].e, rigidbodies[c.b].e);
+
+    vec2 velocity_ab =
+        (rigidbodies[c.a].velocity - perpendicular(contact_a) * rigidbodies[c.a].angular_velocity) -
+        (rigidbodies[c.b].velocity - perpendicular(contact_b) * rigidbodies[c.b].angular_velocity);
+
+    float n_velocity_ab = dot(velocity_ab, escape_vector);
+
+    float cross_a = cross_vec2(contact_a, escape_vector);
+    float cross_b = cross_vec2(contact_b, escape_vector);
+
+    float j = -(1 + e) * n_velocity_ab;
+    j /= rigidbodies[c.a].inv_mass +
+         rigidbodies[c.b].inv_mass +
+         cross_a * cross_a * rigidbodies[c.a].inv_moment_of_inertia +
+         cross_b * cross_b * rigidbodies[c.b].inv_moment_of_inertia;
+
+    // barrier();
+
+    rigidbodies[c.a].velocity += escape_vector * rigidbodies[c.a].inv_mass * j;
+    rigidbodies[c.b].velocity -= escape_vector * rigidbodies[c.b].inv_mass * j;
+
+    rigidbodies[c.a].angular_velocity += cross_vec2(contact_a, escape_vector * j) * rigidbodies[c.a].inv_moment_of_inertia;
+    rigidbodies[c.b].angular_velocity -= cross_vec2(contact_b, escape_vector * j) * rigidbodies[c.b].inv_moment_of_inertia;
+
+    const float persent = 0.2f;
+    const float slop = 0.8f;
+
+    vec2 correction = escape_vector * persent * (max(c.dist - slop, 0.f) / (rigidbodies[c.a].inv_mass + rigidbodies[c.b].inv_mass));
+    rigidbodies[c.a].position -= correction * rigidbodies[c.a].inv_mass;
+    rigidbodies[c.b].position += correction * rigidbodies[c.b].inv_mass;
+}

@@ -34,6 +34,9 @@ namespace ce {
 	void Sprite::draw() const {
 		texture->bind();
 
+		program->setMatrix("model", transform.getTranslate());
+		program->setFloat("depth", transform.getDepth() / 1000);
+
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindVertexArray(0);

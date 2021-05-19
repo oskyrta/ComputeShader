@@ -1,0 +1,88 @@
+#version 430
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+#define Buffer_SSBO 0
+#define Buffer_Vertices 1
+#define Buffer_Indices 2
+#define Buffer_VerticesOffsets 3
+#define Buffer_TransformedVertices 4
+#define Buffer_Matrices 5
+#define Buffer_AABBs 6
+#define Buffer_PossibleCollisions 7
+#define Buffer_Variables 8
+#define Buffer_Normals 9
+#define Buffer_TransformedNormals 10
+#define Buffer_Collisions 11
+#define Buffer_Rigidbodies 12
+
+struct AABB {
+    vec2 bottom_left;
+    vec2 top_right;
+};
+
+struct Rigidbody {
+    float e;
+    float rotation;
+    float inv_mass;
+    float inv_moment_of_inertia;
+    
+    vec2 position;
+
+    float angular_velocity;
+    float torque;
+
+    vec2 velocity;
+    vec2 force; 
+};
+
+uniform uint possible_collisions_count;
+
+layout(std430, binding = Buffer_Indices) buffer Indices {
+    uint indices[];
+};
+
+layout(std430, binding = Buffer_AABBs) buffer AABBs {
+    AABB aabbs[];
+};
+
+layout(std430, binding = Buffer_PossibleCollisions) buffer PossibleCollisions {
+    uint possible_collisions[];
+};
+
+layout(std430, binding = Buffer_VerticesOffsets) buffer VerticesOffsets {
+    uint vertices_offsets[];
+};
+
+layout(std430, binding = Buffer_Variables) buffer Variables {
+    uint variables[];
+};
+
+layout(std430, binding = Buffer_Rigidbodies) buffer Rigidbodies {
+    Rigidbody rigidbodies[];
+};
+
+layout(std430, binding = Buffer_SSBO) buffer SSBO {
+    vec2 ssbo[];
+};
+
+void main() {
+    uint a_i = gl_WorkGroupID.x;
+    uint b_i = (gl_WorkGroupID.x + gl_WorkGroupID.y + 1) % gl_NumWorkGroups.x;
+
+    AABB a = aabbs[a_i];
+    AABB b = aabbs[b_i];
+
+    bool static_bodies = (rigidbodies[a_i].inv_mass == 0.f && rigidbodies[b_i].inv_mass == 0.f);
+    bool intersecting = (a.bottom_left.x < b.top_right.x && a.top_right.x > b.bottom_left.x) && (a.bottom_left.y < b.top_right.y && a.top_right.y > b.bottom_left.y);
+
+    bool is_valid = intersecting && !static_bodies && gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x < possible_collisions_count;
+    
+    uint i; 
+    i = atomicAdd(variables[0], uint(is_valid));
+
+    i = is_valid ? i : possible_collisions_count;
+
+    possible_collisions[i * 2]     = a_i;
+    possible_collisions[i * 2 + 1] = b_i;
+}

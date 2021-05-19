@@ -1,0 +1,59 @@
+#version 430
+
+const float FLT_MAX = 3.402823466e+38;
+const float FLT_MIN = 1.175494351e-38;
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+#define Buffer_SSBO 0
+#define Buffer_Vertices 1
+#define Buffer_Indices 2
+#define Buffer_VerticesOffsets 3
+#define Buffer_TransformedVertices 4
+#define Buffer_Matrices 5
+#define Buffer_AABBs 6
+#define Buffer_PossibleCollisions 7
+#define Buffer_Variables 8
+#define Buffer_Normals 9
+#define Buffer_TransformedNormals 10
+#define Buffer_Collisions 11
+
+uniform uint points_count;
+uniform uint polygons_count;
+
+struct AABB {
+    vec2 bottom_left;
+    vec2 top_right;
+};
+
+layout(std430, binding = Buffer_Indices) buffer Indices {
+    uint indices[];
+};
+
+layout(std430, binding = Buffer_TransformedVertices) buffer TransformedVertices {
+    vec2 transformed_vertices[];
+};
+
+layout(std430, binding = Buffer_AABBs) buffer AABBs {
+    AABB aabbs[];
+};
+
+layout(std430, binding = Buffer_Variables) buffer Variables {
+    uint variables[];
+};
+
+
+void main() {
+    variables[0] = variables[3] = 0;
+    variables[1] = variables[2] = variables[4] = variables[5] = 1;
+
+    for(int i = 0; i < polygons_count; ++i) {
+        aabbs[i].bottom_left = vec2(FLT_MAX, FLT_MAX);
+        aabbs[i].top_right = vec2(-FLT_MAX, -FLT_MAX);
+    }
+
+    for(int i = 0; i < points_count; ++i) {
+        aabbs[indices[i]].bottom_left = min(transformed_vertices[i], aabbs[indices[i]].bottom_left);
+        aabbs[indices[i]].top_right = max(transformed_vertices[i], aabbs[indices[i]].top_right);
+    }
+}

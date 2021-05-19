@@ -1,0 +1,56 @@
+{
+	"type": "gpu",
+	"avg_time": "1.19273",
+	"updates_count": "5009",
+	"points_count": "740",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.05033",
+	"updates_count": "5003",
+	"points_count": "749",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0160523",
+	"updates_count": "5004",
+	"points_count": "743",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0163081",
+	"updates_count": "5004",
+	"points_count": "726",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0140751",
+	"updates_count": "5139",
+	"points_count": "2163",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "6.09035e-05",
+	"updates_count": "5003",
+	"points_count": "2097",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0158388",
+	"updates_count": "5147",
+	"points_count": "2140",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.79975",
+	"updates_count": "5027",
+	"points_count": "2130",
+	"objects_count": "290"
+},

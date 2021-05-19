@@ -1,0 +1,1245 @@
+{
+	"type": "gpu",
+	"avg_time": "0.0251966",
+	"updates_count": "5003",
+	"points_count": "363",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0250985",
+	"updates_count": "5007",
+	"points_count": "356",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0248792",
+	"updates_count": "5006",
+	"points_count": "521",
+	"objects_count": "70"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0287091",
+	"updates_count": "5005",
+	"points_count": "75",
+	"objects_count": "10"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0252986",
+	"updates_count": "5004",
+	"points_count": "149",
+	"objects_count": "20"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0269659",
+	"updates_count": "5006",
+	"points_count": "213",
+	"objects_count": "30"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0279608",
+	"updates_count": "5005",
+	"points_count": "289",
+	"objects_count": "40"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0247399",
+	"updates_count": "5007",
+	"points_count": "379",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0245698",
+	"updates_count": "5007",
+	"points_count": "435",
+	"objects_count": "60"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0239205",
+	"updates_count": "5003",
+	"points_count": "511",
+	"objects_count": "70"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0244407",
+	"updates_count": "5007",
+	"points_count": "583",
+	"objects_count": "80"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0255399",
+	"updates_count": "5002",
+	"points_count": "665",
+	"objects_count": "90"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0237811",
+	"updates_count": "5006",
+	"points_count": "743",
+	"objects_count": "100"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.023748",
+	"updates_count": "5002",
+	"points_count": "791",
+	"objects_count": "110"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0256382",
+	"updates_count": "5001",
+	"points_count": "907",
+	"objects_count": "120"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0258387",
+	"updates_count": "5007",
+	"points_count": "960",
+	"objects_count": "130"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0228233",
+	"updates_count": "5009",
+	"points_count": "1026",
+	"objects_count": "140"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0228218",
+	"updates_count": "5005",
+	"points_count": "1106",
+	"objects_count": "150"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0228514",
+	"updates_count": "5008",
+	"points_count": "1171",
+	"objects_count": "160"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0227152",
+	"updates_count": "5006",
+	"points_count": "1235",
+	"objects_count": "170"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.02242",
+	"updates_count": "5004",
+	"points_count": "1322",
+	"objects_count": "180"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0245053",
+	"updates_count": "5007",
+	"points_count": "1406",
+	"objects_count": "190"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0242418",
+	"updates_count": "5006",
+	"points_count": "1466",
+	"objects_count": "200"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0223989",
+	"updates_count": "5003",
+	"points_count": "1546",
+	"objects_count": "210"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0235404",
+	"updates_count": "5007",
+	"points_count": "1623",
+	"objects_count": "220"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0249609",
+	"updates_count": "5005",
+	"points_count": "1684",
+	"objects_count": "230"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0270983",
+	"updates_count": "5007",
+	"points_count": "1759",
+	"objects_count": "240"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0266275",
+	"updates_count": "5005",
+	"points_count": "1814",
+	"objects_count": "250"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.72018",
+	"updates_count": "5033",
+	"points_count": "1882",
+	"objects_count": "260"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.30201",
+	"updates_count": "5005",
+	"points_count": "1941",
+	"objects_count": "270"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.43866",
+	"updates_count": "5084",
+	"points_count": "2049",
+	"objects_count": "280"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.4544",
+	"updates_count": "5208",
+	"points_count": "2157",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.71028",
+	"updates_count": "5050",
+	"points_count": "2217",
+	"objects_count": "300"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.60892",
+	"updates_count": "5178",
+	"points_count": "2298",
+	"objects_count": "310"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.83805",
+	"updates_count": "5260",
+	"points_count": "2349",
+	"objects_count": "320"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.76258",
+	"updates_count": "5279",
+	"points_count": "2432",
+	"objects_count": "330"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.27589",
+	"updates_count": "5183",
+	"points_count": "2508",
+	"objects_count": "340"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.0499428",
+	"updates_count": "5003",
+	"points_count": "38",
+	"objects_count": "5"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.101715",
+	"updates_count": "5007",
+	"points_count": "76",
+	"objects_count": "10"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.198246",
+	"updates_count": "5009",
+	"points_count": "116",
+	"objects_count": "15"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.255837",
+	"updates_count": "5001",
+	"points_count": "146",
+	"objects_count": "20"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.337212",
+	"updates_count": "5005",
+	"points_count": "192",
+	"objects_count": "25"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.397078",
+	"updates_count": "5006",
+	"points_count": "216",
+	"objects_count": "30"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.445358",
+	"updates_count": "5006",
+	"points_count": "245",
+	"objects_count": "35"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.573095",
+	"updates_count": "5006",
+	"points_count": "294",
+	"objects_count": "40"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.648859",
+	"updates_count": "5008",
+	"points_count": "323",
+	"objects_count": "45"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.750111",
+	"updates_count": "5004",
+	"points_count": "361",
+	"objects_count": "50"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.935911",
+	"updates_count": "5004",
+	"points_count": "401",
+	"objects_count": "55"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.986752",
+	"updates_count": "5006",
+	"points_count": "431",
+	"objects_count": "60"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.00821",
+	"updates_count": "5002",
+	"points_count": "471",
+	"objects_count": "65"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.11037",
+	"updates_count": "5004",
+	"points_count": "498",
+	"objects_count": "70"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.26688",
+	"updates_count": "5006",
+	"points_count": "555",
+	"objects_count": "75"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.32531",
+	"updates_count": "5017",
+	"points_count": "593",
+	"objects_count": "80"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.40376",
+	"updates_count": "5022",
+	"points_count": "628",
+	"objects_count": "85"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.60209",
+	"updates_count": "5004",
+	"points_count": "668",
+	"objects_count": "90"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.71541",
+	"updates_count": "5047",
+	"points_count": "700",
+	"objects_count": "95"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.81184",
+	"updates_count": "5169",
+	"points_count": "734",
+	"objects_count": "100"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.8694",
+	"updates_count": "5068",
+	"points_count": "774",
+	"objects_count": "105"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.11712",
+	"updates_count": "5492",
+	"points_count": "815",
+	"objects_count": "110"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.34999",
+	"updates_count": "5486",
+	"points_count": "835",
+	"objects_count": "115"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.17084",
+	"updates_count": "5060",
+	"points_count": "883",
+	"objects_count": "120"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.34742",
+	"updates_count": "5265",
+	"points_count": "925",
+	"objects_count": "125"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.41177",
+	"updates_count": "5230",
+	"points_count": "958",
+	"objects_count": "130"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.53884",
+	"updates_count": "5498",
+	"points_count": "993",
+	"objects_count": "135"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.78693",
+	"updates_count": "5246",
+	"points_count": "1038",
+	"objects_count": "140"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.86396",
+	"updates_count": "5090",
+	"points_count": "1094",
+	"objects_count": "145"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.90759",
+	"updates_count": "5171",
+	"points_count": "1114",
+	"objects_count": "150"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.0023",
+	"updates_count": "5427",
+	"points_count": "1111",
+	"objects_count": "155"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.25601",
+	"updates_count": "5356",
+	"points_count": "1178",
+	"objects_count": "160"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.24008",
+	"updates_count": "5179",
+	"points_count": "1208",
+	"objects_count": "165"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.29698",
+	"updates_count": "5374",
+	"points_count": "1252",
+	"objects_count": "170"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.73283",
+	"updates_count": "5257",
+	"points_count": "1291",
+	"objects_count": "175"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.55465",
+	"updates_count": "5446",
+	"points_count": "1302",
+	"objects_count": "180"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.69253",
+	"updates_count": "5470",
+	"points_count": "1347",
+	"objects_count": "185"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.88025",
+	"updates_count": "5090",
+	"points_count": "1379",
+	"objects_count": "190"
+},
+{
+	"type": "cpu",
+	"avg_time": "4.0674",
+	"updates_count": "5477",
+	"points_count": "1427",
+	"objects_count": "195"
+},
+{
+	"type": "cpu",
+	"avg_time": "4.01696",
+	"updates_count": "5300",
+	"points_count": "1439",
+	"objects_count": "200"
+},{
+	"type": "cpu",
+	"avg_time": "0.105357",
+	"updates_count": "5006",
+	"points_count": "42",
+	"objects_count": "5"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.116519",
+	"updates_count": "5005",
+	"points_count": "74",
+	"objects_count": "10"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.19108",
+	"updates_count": "5003",
+	"points_count": "105",
+	"objects_count": "15"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.249752",
+	"updates_count": "5007",
+	"points_count": "142",
+	"objects_count": "20"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.343762",
+	"updates_count": "5002",
+	"points_count": "177",
+	"objects_count": "25"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.401896",
+	"updates_count": "5001",
+	"points_count": "224",
+	"objects_count": "30"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.462351",
+	"updates_count": "5005",
+	"points_count": "247",
+	"objects_count": "35"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.548031",
+	"updates_count": "5006",
+	"points_count": "295",
+	"objects_count": "40"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.679398",
+	"updates_count": "5007",
+	"points_count": "324",
+	"objects_count": "45"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.762585",
+	"updates_count": "5008",
+	"points_count": "355",
+	"objects_count": "50"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.93146",
+	"updates_count": "5008",
+	"points_count": "430",
+	"objects_count": "55"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.09027",
+	"updates_count": "5001",
+	"points_count": "433",
+	"objects_count": "60"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.16649",
+	"updates_count": "5014",
+	"points_count": "461",
+	"objects_count": "65"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.19546",
+	"updates_count": "5014",
+	"points_count": "503",
+	"objects_count": "70"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.28549",
+	"updates_count": "5002",
+	"points_count": "526",
+	"objects_count": "75"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.37803",
+	"updates_count": "5004",
+	"points_count": "591",
+	"objects_count": "80"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.51151",
+	"updates_count": "5024",
+	"points_count": "629",
+	"objects_count": "85"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.69494",
+	"updates_count": "5040",
+	"points_count": "664",
+	"objects_count": "90"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.73339",
+	"updates_count": "5027",
+	"points_count": "710",
+	"objects_count": "95"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.8464",
+	"updates_count": "5174",
+	"points_count": "758",
+	"objects_count": "100"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.9575",
+	"updates_count": "5008",
+	"points_count": "791",
+	"objects_count": "105"
+},
+{
+	"type": "cpu",
+	"avg_time": "1.93656",
+	"updates_count": "5193",
+	"points_count": "794",
+	"objects_count": "110"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.02771",
+	"updates_count": "5331",
+	"points_count": "818",
+	"objects_count": "115"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.30687",
+	"updates_count": "5048",
+	"points_count": "885",
+	"objects_count": "120"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.26151",
+	"updates_count": "5278",
+	"points_count": "891",
+	"objects_count": "125"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.35282",
+	"updates_count": "5313",
+	"points_count": "937",
+	"objects_count": "130"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.59928",
+	"updates_count": "5325",
+	"points_count": "1000",
+	"objects_count": "135"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.6786",
+	"updates_count": "5462",
+	"points_count": "1042",
+	"objects_count": "140"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.89662",
+	"updates_count": "5289",
+	"points_count": "1070",
+	"objects_count": "145"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.00209",
+	"updates_count": "5171",
+	"points_count": "1074",
+	"objects_count": "150"
+},
+{
+	"type": "cpu",
+	"avg_time": "2.98664",
+	"updates_count": "5073",
+	"points_count": "1153",
+	"objects_count": "155"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.10719",
+	"updates_count": "5317",
+	"points_count": "1161",
+	"objects_count": "160"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.30225",
+	"updates_count": "5189",
+	"points_count": "1199",
+	"objects_count": "165"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.44016",
+	"updates_count": "5394",
+	"points_count": "1235",
+	"objects_count": "170"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.5174",
+	"updates_count": "5167",
+	"points_count": "1295",
+	"objects_count": "175"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.84706",
+	"updates_count": "5262",
+	"points_count": "1339",
+	"objects_count": "180"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.90874",
+	"updates_count": "5131",
+	"points_count": "1401",
+	"objects_count": "185"
+},
+{
+	"type": "cpu",
+	"avg_time": "3.83161",
+	"updates_count": "5362",
+	"points_count": "1395",
+	"objects_count": "190"
+},
+{
+	"type": "cpu",
+	"avg_time": "4.08912",
+	"updates_count": "5102",
+	"points_count": "1425",
+	"objects_count": "195"
+},
+{
+	"type": "cpu",
+	"avg_time": "4.12692",
+	"updates_count": "5163",
+	"points_count": "1494",
+	"objects_count": "200"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.0699891",
+	"updates_count": "3467",
+	"points_count": "37",
+	"objects_count": "5"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0363383",
+	"updates_count": "5002",
+	"points_count": "40",
+	"objects_count": "5"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0276915",
+	"updates_count": "5008",
+	"points_count": "107",
+	"objects_count": "15"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0254183",
+	"updates_count": "5007",
+	"points_count": "177",
+	"objects_count": "25"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0234381",
+	"updates_count": "5005",
+	"points_count": "245",
+	"objects_count": "35"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0288163",
+	"updates_count": "5006",
+	"points_count": "337",
+	"objects_count": "45"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0254301",
+	"updates_count": "5008",
+	"points_count": "413",
+	"objects_count": "55"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0257017",
+	"updates_count": "5002",
+	"points_count": "468",
+	"objects_count": "65"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0230686",
+	"updates_count": "5005",
+	"points_count": "562",
+	"objects_count": "75"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0246151",
+	"updates_count": "5001",
+	"points_count": "616",
+	"objects_count": "85"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0247981",
+	"updates_count": "5008",
+	"points_count": "675",
+	"objects_count": "95"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0223286",
+	"updates_count": "5003",
+	"points_count": "773",
+	"objects_count": "105"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.02258",
+	"updates_count": "5009",
+	"points_count": "847",
+	"objects_count": "115"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0231609",
+	"updates_count": "5003",
+	"points_count": "951",
+	"objects_count": "125"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0243904",
+	"updates_count": "5003",
+	"points_count": "981",
+	"objects_count": "135"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0232981",
+	"updates_count": "5002",
+	"points_count": "1061",
+	"objects_count": "145"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.023435",
+	"updates_count": "5003",
+	"points_count": "1132",
+	"objects_count": "155"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0233748",
+	"updates_count": "5003",
+	"points_count": "1222",
+	"objects_count": "165"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0238165",
+	"updates_count": "5005",
+	"points_count": "1265",
+	"objects_count": "175"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0229797",
+	"updates_count": "5003",
+	"points_count": "1361",
+	"objects_count": "185"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0236534",
+	"updates_count": "5004",
+	"points_count": "1423",
+	"objects_count": "195"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.025499",
+	"updates_count": "5004",
+	"points_count": "1509",
+	"objects_count": "205"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0244052",
+	"updates_count": "5001",
+	"points_count": "1570",
+	"objects_count": "215"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.024186",
+	"updates_count": "5005",
+	"points_count": "1653",
+	"objects_count": "225"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0262616",
+	"updates_count": "5007",
+	"points_count": "1720",
+	"objects_count": "235"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0249478",
+	"updates_count": "5001",
+	"points_count": "1802",
+	"objects_count": "245"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.72646",
+	"updates_count": "5012",
+	"points_count": "1892",
+	"objects_count": "255"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.910799",
+	"updates_count": "5084",
+	"points_count": "1935",
+	"objects_count": "265"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.39717",
+	"updates_count": "5127",
+	"points_count": "2040",
+	"objects_count": "275"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.67791",
+	"updates_count": "5249",
+	"points_count": "2102",
+	"objects_count": "285"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.77651",
+	"updates_count": "5144",
+	"points_count": "2168",
+	"objects_count": "295"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.69488",
+	"updates_count": "5083",
+	"points_count": "2254",
+	"objects_count": "305"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.68689",
+	"updates_count": "5154",
+	"points_count": "2300",
+	"objects_count": "315"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.65071",
+	"updates_count": "5053",
+	"points_count": "2407",
+	"objects_count": "325"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.2022",
+	"updates_count": "5108",
+	"points_count": "2467",
+	"objects_count": "335"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.84513",
+	"updates_count": "5012",
+	"points_count": "2543",
+	"objects_count": "345"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.0356517",
+	"updates_count": "949",
+	"points_count": "75",
+	"objects_count": "10"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.783485",
+	"updates_count": "4589",
+	"points_count": "362",
+	"objects_count": "50"
+},
+{
+	"type": "cpu",
+	"avg_time": "0.801576",
+	"updates_count": "5004",
+	"points_count": "351",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0403412",
+	"updates_count": "5001",
+	"points_count": "348",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0358349",
+	"updates_count": "5006",
+	"points_count": "387",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0306179",
+	"updates_count": "5005",
+	"points_count": "375",
+	"objects_count": "50"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0277507",
+	"updates_count": "5001",
+	"points_count": "75",
+	"objects_count": "10"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0368138",
+	"updates_count": "5001",
+	"points_count": "208",
+	"objects_count": "30"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0285214",
+	"updates_count": "5004",
+	"points_count": "508",
+	"objects_count": "70"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0329213",
+	"updates_count": "5005",
+	"points_count": "503",
+	"objects_count": "70"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0518587",
+	"updates_count": "5008",
+	"points_count": "1537",
+	"objects_count": "210"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.037108",
+	"updates_count": "5006",
+	"points_count": "653",
+	"objects_count": "90"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0353165",
+	"updates_count": "5004",
+	"points_count": "813",
+	"objects_count": "110"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0305584",
+	"updates_count": "5001",
+	"points_count": "818",
+	"objects_count": "110"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0291157",
+	"updates_count": "5002",
+	"points_count": "819",
+	"objects_count": "110"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0260528",
+	"updates_count": "5004",
+	"points_count": "955",
+	"objects_count": "130"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0316148",
+	"updates_count": "5002",
+	"points_count": "954",
+	"objects_count": "130"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0294521",
+	"updates_count": "5006",
+	"points_count": "1105",
+	"objects_count": "150"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0320175",
+	"updates_count": "5004",
+	"points_count": "1249",
+	"objects_count": "170"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0456776",
+	"updates_count": "5004",
+	"points_count": "1387",
+	"objects_count": "190"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0623983",
+	"updates_count": "5004",
+	"points_count": "1702",
+	"objects_count": "230"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.873214",
+	"updates_count": "5007",
+	"points_count": "1822",
+	"objects_count": "250"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.32184",
+	"updates_count": "5040",
+	"points_count": "1999",
+	"objects_count": "270"
+},
+{
+	"type": "gpu",
+	"avg_time": "1.7225",
+	"updates_count": "5050",
+	"points_count": "2164",
+	"objects_count": "290"
+},
+{
+	"type": "gpu",
+	"avg_time": "0.0362665",
+	"updates_count": "5005",
+	"points_count": "37",
+	"objects_count": "5"
+},

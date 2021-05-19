@@ -1,0 +1,47 @@
+#version 430
+
+layout( local_size_x = 1, local_size_y = 1 ) in;
+
+#define Buffer_SSBO 0
+#define Buffer_Vertices 1
+#define Buffer_Indices 2
+#define Buffer_VerticesOffsets 3
+#define Buffer_TransformedVertices 4
+#define Buffer_Matrices 5
+#define Buffer_AABBs 6
+#define Buffer_PossibleCollisions 7
+#define Buffer_Variables 8
+#define Buffer_Normals 9
+#define Buffer_TransformedNormals 10
+#define Buffer_Collisions 11
+
+layout(std430, binding = Buffer_Vertices) buffer Vertices {
+    vec2 vertices[];
+};
+
+layout(std430, binding = Buffer_Indices) buffer Indices {
+    uint indices[];
+};
+
+layout(std430, binding = Buffer_TransformedVertices) buffer TransformedVertices {
+    vec2 transformed_vertices[];
+};
+
+layout(std430, binding = Buffer_Matrices) buffer Matrices {
+    mat3 matrices[];
+};
+
+layout(std430, binding = Buffer_Normals) buffer Normals {
+    vec2 normals[];
+};
+
+layout(std430, binding = Buffer_TransformedNormals) buffer TransformedNormals {
+    vec2 transformed_normals[];
+};
+
+
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    transformed_vertices[i] = ( matrices[indices[i]] * vec3(vertices[i], 1.f) ).xy;
+    transformed_normals[i]  = ( matrices[indices[i]] * vec3(normals[i], 0.f)  ).xy;
+}
