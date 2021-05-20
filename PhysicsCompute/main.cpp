@@ -63,20 +63,20 @@ void initScene() {
 		polygon.transform.setPosition(ce::vec2{ rand() % screen_width, rand() % screen_height });
 
 		polygon.getRigidbody()->velocity = ce::vec2{ rand() % 100 - 50, rand() % 100 - 50 };
-		polygon.getRigidbody()->force = { 0, -250 };
+		polygon.getRigidbody()->force = { 0, -450 };
 
 		polygons.push_back(polygon);
 	}
 
 	pc::Polygon left_mill;
-	left_mill.load({ {0, 0}, {0, 250}, {10, 250}, {10, 0} });
+	left_mill.load({ {0, 0}, {0, 270}, {10, 270}, {10, 0} });
 	left_mill.transform.setPosition({ 150, 150 });
 	left_mill.setProgram(&line_shader);
 	left_mill.getRigidbody()->angular_velocity = 3;
 	left_mill.getRigidbody()->makeStatic();
 
 	pc::Polygon right_mill;
-	right_mill.load({ {0, 0}, {0, 250}, {10, 250}, {10, 0} });
+	right_mill.load({ {0, 0}, {0, 270}, {10, 270}, {10, 0} });
 	right_mill.transform.setPosition({ 570, 150 });
 	right_mill.setProgram(&line_shader);
 	right_mill.transform.setRotation(ce::math::to_radians(90));
